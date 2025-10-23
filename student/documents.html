@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student · Documents</title>
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body>
+<header class="header">
+<div class="crumbs"><a href="dashboard.html">← Dashboard</a><span class="meta">/ Documents</span></div>
+<h1>Document Storage</h1>
+<p class="meta">Upload and manage application files.</p>
+</header>
+
+<main class="container grid cols-2">
+<section class="card">
+<h3>Upload New Document</h3>
+<label class="label" for="dtype">Document Type</label>
+<select id="dtype" class="input"><option>Resume</option><option>Cover Letter</option><option>Transcript</option></select>
+<label class="label" for="file">Choose File</label>
+<input id="file" type="file" class="input">
+<label class="label" for="label">Label / Version</label>
+<input id="label" class="input" placeholder="e.g., Resume v2">
+<p class="mt-16"><button class="btn">Upload</button></p>
+<div class="banner mt-16">Uploads are non-functional in this prototype.</div>
+</section>
+
+<section class="card">
+<h3>Manage Documents</h3>
+<table class="table">
+<thead><tr><th>Name</th><th>Type</th><th>Uploaded</th><th class="hide-sm">Size</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td>Resume.pdf</td><td>Resume</td><td>2025-01-15</td><td class="hide-sm">24KB</td><td><span class="badge">Rename</span> <span class="badge">Set Default</span> <span class="badge">Delete</span></td></tr>
+<tr><td>CoverLetter.pdf</td><td>Cover Letter</td><td>2025-02-10</td><td class="hide-sm">18KB</td><td><span class="badge">Rename</span> <span class="badge">Set Default</span> <span class="badge">Delete</span></td></tr>
+</tbody>
+</table>
+</section>
+</main>
+
+<footer class="footer">Student2Success</footer>
+</body>
+</html>
