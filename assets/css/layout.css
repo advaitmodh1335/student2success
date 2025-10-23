@@ -1,8 +1,42 @@
 /* shared page chrome for all inner pages */
-.shell{border-top:1px solid #121826;border-bottom:1px solid #121826;background:linear-gradient(180deg,#0c111b,#0b0e14)}
-.sidebar{position:sticky;top:12px}
-.navlist{list-style:none;margin:0;padding:0}
-.navlist li a{display:block;padding:.55rem .8rem;border-radius:10px;color:var(--ink);border:1px solid transparent}
-.navlist li a.active,.navlist li a:hover{border-color:#2a3550;background:#121826}
-.content{min-height:60vh}
-footer.footer{color:var(--muted);font-size:.9rem;text-align:center;padding:24px}
+.shell {
+    border-top: 1px solid #121826;
+    border-bottom: 1px solid #121826;
+    background: linear-gradient(180deg, #0c111b, #0b0e14)
+}
+
+.sidebar {
+    position: sticky;
+    top: 12px
+}
+
+.navlist {
+    list-style: none;
+    margin: 0;
+    padding: 0
+}
+
+.navlist li a {
+    display: block;
+    padding: .55rem .8rem;
+    border-radius: 10px;
+    color: var(--ink);
+    border: 1px solid transparent
+}
+
+.navlist li a.active,
+.navlist li a:hover {
+    border-color: #2a3550;
+    background: #121826
+}
+
+.content {
+    min-height: 60vh
+}
+
+footer.footer {
+    color: var(--muted);
+    font-size: .9rem;
+    text-align: center;
+    padding: 24px
+}

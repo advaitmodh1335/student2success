@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Employer Login</title>
+  <link rel="stylesheet" href="../assets/css/base.css">
+</head>
+<body>
+  <header class="header"><a href="../index.html">← Back to Home</a></header>
+
+  <section class="centered">
+    <form class="auth-box" id="loginForm">
+      <h1 class="auth-title">Employer Login</h1>
+      <div id="resetMsg" class="meta hide" style="margin-bottom:8px">Reset link sent. Please check your email.</div>
+      <div id="signupSuccess" class="meta hide" style="margin-bottom:8px">Account created. Please log in.</div>
+      <label class="label" for="email">Email</label>
+      <input id="email" class="input" type="email" placeholder="hr@company.com" required>
+      <label class="label" for="password">Password</label>
+      <input id="password" class="input" type="password" placeholder="••••••••" required>
+      <a class="link forgot" href="#" id="forgotLink">Forgot Password?</a>
+      <div class="t-center mt-12"><button class="btn" type="submit">Login</button></div>
+      <div class="t-center mt-12"><a class="link" href="#" id="signupLink">Sign Up</a></div>
+    </form>
+  </section>
+
+  <div class="modal-backdrop" id="signupModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
+      <header>
+        <h2 id="signupTitle">Create Employer Account</h2>
+        <button class="close-x" id="closeSignup" aria-label="Close">✕</button>
+      </header>
+      <form id="signupForm">
+        <div class="row"><label class="label" for="company">Company Name</label><input id="company" class="input" required></div>
+        <div class="row"><label class="label" for="contact">Your Name</label><input id="contact" class="input" required></div>
+        <div class="row"><label class="label" for="workemail">Work Email</label><input id="workemail" class="input" type="email" placeholder="hr@company.com" required></div>
+        <div class="row"><label class="label" for="pw1">Password</label><input id="pw1" class="input" type="password" required></div>
+        <div class="row"><label class="label" for="pw2">Confirm Password</label><input id="pw2" class="input" type="password" required></div>
+        <div class="t-center mt-12"><button class="btn" type="submit">Create Account</button></div>
+        <div class="t-center mt-12"><a class="link" href="#" id="cancelSignup">Cancel</a></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="forgotModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="fpTitle">
+      <header>
+        <h2 id="fpTitle">Reset Password</h2>
+        <button class="close-x" id="fpClose" aria-label="Close">✕</button>
+      </header>
+      <form id="forgotForm">
+        <div class="row"><label class="label" for="fpEmail">Work Email</label><input id="fpEmail" class="input" type="email" placeholder="hr@company.com" required></div>
+        <div class="t-center mt-12"><button class="btn" type="submit">Send Reset Link</button></div>
+        <div class="t-center mt-12"><a class="link" href="#" id="fpCancel">Cancel</a></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const loginForm=document.getElementById('loginForm');
+    loginForm.addEventListener('submit',e=>{e.preventDefault();window.location.href='dashboard.html';});
+
+    const sModal=document.getElementById('signupModal');
+    const sOpen=document.getElementById('signupLink');
+    const sClose=document.getElementById('closeSignup');
+    const sCancel=document.getElementById('cancelSignup');
+    const sForm=document.getElementById('signupForm');
+    const sSuccess=document.getElementById('signupSuccess');
+    const loginEmail=document.getElementById('email');
+
+    function sShow(){sModal.classList.add('show');sModal.setAttribute('aria-hidden','false');document.getElementById('company').focus();}
+    function sHide(){sModal.classList.remove('show');sModal.setAttribute('aria-hidden','true');}
+
+    sOpen.addEventListener('click',e=>{e.preventDefault();sShow();});
+    sClose.addEventListener('click',sHide);
+    sCancel.addEventListener('click',e=>{e.preventDefault();sHide();});
+    sModal.addEventListener('click',e=>{if(e.target===sModal)sHide();});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sModal.classList.contains('show'))sHide();});
+    sForm.addEventListener('submit',e=>{
+      e.preventDefault();
+      const mail=document.getElementById('workemail').value.trim();
+      sHide();
+      if(mail) loginEmail.value=mail;
+      sSuccess.classList.remove('hide');
+      loginEmail.focus();
+    });
+
+    const fModal=document.getElementById('forgotModal');
+    const fOpen=document.getElementById('forgotLink');
+    const fClose=document.getElementById('fpClose');
+    const fCancel=document.getElementById('fpCancel');
+    const fForm=document.getElementById('forgotForm');
+    const fpEmail=document.getElementById('fpEmail');
+    const resetMsg=document.getElementById('resetMsg');
+
+    function fShow(){fModal.classList.add('show');fModal.setAttribute('aria-hidden','false');fpEmail.value=loginEmail.value||'';fpEmail.focus();}
+    function fHide(){fModal.classList.remove('show');fModal.setAttribute('aria-hidden','true');}
+
+    fOpen.addEventListener('click',e=>{e.preventDefault();fShow();});
+    fClose.addEventListener('click',fHide);
+    fCancel.addEventListener('click',e=>{e.preventDefault();fHide();});
+    fModal.addEventListener('click',e=>{if(e.target===fModal)fHide();});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&fModal.classList.contains('show'))fHide();});
+    fForm.addEventListener('submit',e=>{
+      e.preventDefault();
+      const mail=fpEmail.value.trim();
+      fHide();
+      if(mail) loginEmail.value=mail;
+      resetMsg.classList.remove('hide');
+      document.getElementById('password').focus();
+    });
+  </script>
+</body>
+</html>

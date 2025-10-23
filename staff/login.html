@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Staff Login</title>
+  <link rel="stylesheet" href="../assets/css/base.css">
+</head>
+<body>
+  <header class="header"><a href="../index.html">← Back</a></header>
+  <section class="centered">
+    <form class="auth-box" id="loginForm">
+      <h1 class="auth-title">Staff Login</h1>
+      <div id="resetMsg" class="meta hide" style="margin-bottom:8px">Reset link sent. Please check your email.</div>
+      <label class="label" for="email">Email</label>
+      <input id="email" class="input" type="email" placeholder="staff@university.edu" required>
+      <label class="label" for="password">Password</label>
+      <input id="password" class="input" type="password" placeholder="••••••••" required>
+      <a class="link forgot" href="#" id="forgotLink">Forgot Password?</a>
+      <div class="t-center mt-12"><button class="btn" type="submit">Login</button></div>
+    </form>
+  </section>
+
+  <div class="modal-backdrop" id="forgotModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="fpTitle">
+      <header>
+        <h2 id="fpTitle">Reset Password</h2>
+        <button class="close-x" id="fpClose" aria-label="Close">✕</button>
+      </header>
+      <form id="forgotForm">
+        <div class="row">
+          <label class="label" for="fpEmail">Email</label>
+          <input id="fpEmail" class="input" type="email" placeholder="staff@university.edu" required>
+        </div>
+        <div class="t-center mt-12"><button class="btn" type="submit">Send Reset Link</button></div>
+        <div class="t-center mt-12"><a class="link" href="#" id="fpCancel">Cancel</a></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const loginForm=document.getElementById('loginForm');
+    loginForm.addEventListener('submit',e=>{e.preventDefault();window.location.href='dashboard.html';});
+
+    const fm=document.getElementById('forgotModal');
+    const open=document.getElementById('forgotLink');
+    const close=document.getElementById('fpClose');
+    const cancel=document.getElementById('fpCancel');
+    const fForm=document.getElementById('forgotForm');
+    const fpEmail=document.getElementById('fpEmail');
+    const loginEmail=document.getElementById('email');
+    const resetMsg=document.getElementById('resetMsg');
+
+    function show(){fm.classList.add('show');fm.setAttribute('aria-hidden','false');fpEmail.value=loginEmail.value||'';fpEmail.focus();}
+    function hide(){fm.classList.remove('show');fm.setAttribute('aria-hidden','true');}
+
+    open.addEventListener('click',e=>{e.preventDefault();show();});
+    close.addEventListener('click',hide);
+    cancel.addEventListener('click',e=>{e.preventDefault();hide();});
+    fm.addEventListener('click',e=>{if(e.target===fm)hide();});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&fm.classList.contains('show'))hide();});
+    fForm.addEventListener('submit',e=>{
+      e.preventDefault();
+      const mail=fpEmail.value.trim();
+      hide();
+      if(mail) loginEmail.value=mail;
+      resetMsg.classList.remove('hide');
+      document.getElementById('password').focus();
+    });
+  </script>
+</body>
+</html>
