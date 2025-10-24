@@ -1,51 +1,149 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Student · Job Search</title>
-    <link rel="stylesheet" href="../assets/css/base.css">
-    <link rel="stylesheet" href="../assets/css/layout.css">
-    <link rel="stylesheet" href="../assets/css/components.css">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Student · Job Search</title>
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <style>
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    .filters{display:grid;gap:14px}
+    .chips{display:flex;gap:10px;flex-wrap:wrap}
+    .chip{padding:.5rem .8rem;border:1px solid #2a3556;border-radius:999px;background:#0e1420;color:#e6eaf2;cursor:pointer}
+    .chip[data-on="true"]{background:#1a2540;border-color:#3550a3}
+    .row4{display:grid;gap:10px;grid-template-columns:repeat(4,1fr)}
+    .btn.ghost{background:transparent;border:1px solid #2a3556;color:#d7e0ee}
+    .result{padding:16px;border-radius:14px;border:1px solid #1c2231;background:#121826;cursor:pointer}
+    .result+.result{margin-top:12px}
+    .result:hover{background:#0f1523}
+    .result h3{margin:0 0 4px}
+    .meta-line{display:flex;gap:16px;color:#9aa6b2}
+    .result h3 a{color:#97b3ff;text-decoration:none}
+  </style>
 </head>
-
 <body>
-    <header class="header">
-        <div class="crumbs"><a href="dashboard.html">← Dashboard</a><span class="meta">/ Job Search</span></div>
-        <h1>Job Search</h1>
-        <p class="meta">Use filters to narrow results.</p>
-    </header>
+  <header class="header">
+    <div class="wrap">
+      <nav class="crumbs">
+        <a href="dashboard.html">← Dashboard</a>
+        <span class="meta">/ Job Search</span>
+      </nav>
+      <h1>Job Search</h1>
+      <div class="meta">Use filters to narrow results.</div>
+    </div>
+  </header>
 
-    <main class="container">
-        <label class="label" for="q">Search</label>
-        <input id="q" class="input" placeholder="e.g., Software Developer Intern">
+  <main>
+    <div class="wrap">
+      <div class="card">
+        <form id="filters" class="filters">
+          <div>
+            <label class="label" for="q">Search</label>
+            <input id="q" class="input" placeholder="e.g., Software Developer Intern">
+          </div>
 
-        <div class="chips mt-16">
-            <span class="chip">Remote</span>
-            <span class="chip">Full-time</span>
-            <span class="chip">Paid</span>
-            <span class="chip">Location: Calgary</span>
-            <span class="chip">Duration: 4 months</span>
-        </div>
+          <div>
+            <span class="label">Quick Filters</span>
+            <div class="chips">
+              <span class="chip" data-on="true">Remote</span>
+              <span class="chip" data-on="true">Paid</span>
+              <span class="chip">Full-time</span>
+              <span class="chip">Part-time</span>
+              <span class="chip" data-on="true">Internship</span>
+              <span class="chip">Co-op</span>
+            </div>
+          </div>
 
-        <section class="grid cols-2 mt-24">
-            <a class="card hover jobcard" href="job-details.html">
-                <h3>Software Developer Intern</h3>
-                <div class="meta"><span>Tech Corp</span><span>Remote</span><span>$25/hr</span><span>Posted 2d</span>
-                </div>
-                <p class="meta">Build internal tools with JS/HTML/CSS.</p>
-            </a>
-            <a class="card hover jobcard" href="job-details.html">
-                <h3>Data Analyst Intern</h3>
-                <div class="meta"><span>DataViz Inc</span><span>Calgary</span><span>$20/hr</span><span>Posted 1w</span>
-                </div>
-                <p class="meta">Assist with dashboards and ETL.</p>
-            </a>
-        </section>
-    </main>
+          <div class="row4">
+            <div>
+              <label class="label" for="location">Location</label>
+              <select id="location" class="input">
+                <option value="">Any</option>
+                <option>Calgary</option>
+                <option>Remote</option>
+                <option>Vancouver</option>
+                <option>Toronto</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="duration">Duration</label>
+              <select id="duration" class="input">
+                <option value="">Any</option>
+                <option>4 months</option>
+                <option>8 months</option>
+                <option>12 months</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="minpay">Min Pay ($/hr)</label>
+              <input id="minpay" class="input" type="number" min="0" step="1" placeholder="20">
+            </div>
+            <div>
+              <label class="label" for="posted">Posted</label>
+              <select id="posted" class="input">
+                <option value="">Any time</option>
+                <option>Last 24h</option>
+                <option>Last 7 days</option>
+                <option>Last 30 days</option>
+              </select>
+            </div>
+          </div>
 
-    <footer class="footer">Student2Success</footer>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn" type="submit">Apply Filters</button>
+            <button class="btn ghost" type="button" id="reset">Reset</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="results" style="margin-top:16px">
+        <article class="result" data-id="swe-intern">
+          <h3><a href="job-details.html?id=swe-intern">Software Developer Intern</a></h3>
+          <div class="meta-line">
+            <span>Tech Corp</span><span>Remote</span><span>$25/hr</span><span>Posted 2d</span>
+          </div>
+          <p style="margin:8px 0 0">Build internal tools with JS/HTML/CSS.</p>
+        </article>
+
+        <article class="result" data-id="data-analyst-intern">
+          <h3><a href="job-details.html?id=data-analyst-intern">Data Analyst Intern</a></h3>
+          <div class="meta-line">
+            <span>DataViz Inc</span><span>Calgary</span><span>$20/hr</span><span>Posted 1w</span>
+          </div>
+          <p style="margin:8px 0 0">Assist with dashboards and ETL.</p>
+        </article>
+
+        <article class="result" data-id="web-engineer-coop">
+          <h3><a href="job-details.html?id=web-engineer-coop">Web Engineer Co-op</a></h3>
+          <div class="meta-line">
+            <span>SiteWorks</span><span>Remote</span><span>$27/hr</span><span>Posted 5d</span>
+          </div>
+          <p style="margin:8px 0 0">Front-end features with modern tooling.</p>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">Student2Success</footer>
+
+  <script>
+    document.querySelectorAll('.chip').forEach(chip=>{
+      chip.addEventListener('click',()=>chip.dataset.on = chip.dataset.on==='true'?'false':'true');
+    });
+    document.getElementById('reset').addEventListener('click',()=>{
+      document.getElementById('filters').reset();
+      document.querySelectorAll('.chip').forEach(c=>c.dataset.on='false');
+    });
+    document.getElementById('filters').addEventListener('submit',e=>{
+      e.preventDefault();
+      alert('Filters applied (prototype only).');
+    });
+    document.querySelectorAll('.result').forEach(card=>{
+      card.addEventListener('click',e=>{
+        if(e.target.closest('a')) return;
+        const id = card.dataset.id;
+        window.location.href = `job-details.html?id=${encodeURIComponent(id)}`;
+      });
+    });
+  </script>
 </body>
-
 </html>

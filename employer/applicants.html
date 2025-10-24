@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Employer · Applicants</title>
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <style>
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    .toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap}
+    .search{flex:1;min-width:260px}
+    .btn.sm{padding:.45rem .75rem;font-size:.9rem;border-radius:8px}
+    .btn.outline{background:transparent;border:1px solid #2a3556;color:#d7e0ee}
+    .btn.safe{background:var(--accent);color:#fff;border:0}
+    .pill{display:inline-block;padding:.22rem .6rem;border-radius:999px;border:1px solid #23304a;font-size:.85rem}
+    .pill.review{border-color:#324057;color:#cfe0ff}
+    .pill.interview{border-color:#17412b;color:#baf3d0}
+    .pill.rejected{border-color:#462323;color:#ffb3b3}
+    .actions-bar{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+    .apps-table{table-layout:fixed}
+    .apps-table th:nth-child(1), .apps-table td:nth-child(1){width:26%}
+    .apps-table th:nth-child(2), .apps-table td:nth-child(2){width:16%}
+    .apps-table th:nth-child(3), .apps-table td:nth-child(3){width:10%}
+    .apps-table th:nth-child(4), .apps-table td:nth-child(4){width:14%}
+    .apps-table th:nth-child(5), .apps-table td:nth-child(5){width:12%}
+    .apps-table th:nth-child(6), .apps-table td:nth-child(6){width:22%;overflow:visible}
+    .tagline{color:var(--muted);font-size:.95rem}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="wrap">
+      <nav class="crumbs">
+        <a href="jobs.html">← Jobs</a>
+        <span class="meta">/ Applicants</span>
+      </nav>
+      <h1>Applicants</h1>
+      <div class="tagline">Software Developer Intern</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="toolbar">
+        <input class="input search" placeholder="Search applicants by name, email, or keyword">
+        <div class="actions-bar">
+          <select class="input" style="width:180px">
+            <option value="">Filter by status</option>
+            <option>Under Review</option>
+            <option>Interview</option>
+            <option>Rejected</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card">
+        <table class="table apps-table">
+          <thead>
+            <tr>
+              <th>Applicant</th>
+              <th>Degree</th>
+              <th class="num">GPA</th>
+              <th>Submitted</th>
+              <th>Status</th>
+              <th class="actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alex Johnson<br><span class="meta">alex.johnson@uni.edu</span></td>
+              <td>BSc Computer Science</td>
+              <td class="num">3.7</td>
+              <td>2025-10-05</td>
+              <td><span class="pill review">Under Review</span></td>
+              <td class="actions">
+                <div class="actions-bar">
+                  <a class="btn sm outline" href="#">View</a>
+                  <a class="btn sm outline" href="#">Message</a>
+                  <a class="btn sm safe" href="#">Download Resume</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Maya Patel<br><span class="meta">maya.patel@uni.edu</span></td>
+              <td>BSc Software Engineering</td>
+              <td class="num">3.9</td>
+              <td>2025-10-04</td>
+              <td><span class="pill interview">Interview</span></td>
+              <td class="actions">
+                <div class="actions-bar">
+                  <a class="btn sm outline" href="#">View</a>
+                  <a class="btn sm outline" href="#">Message</a>
+                  <a class="btn sm safe" href="#">Download Resume</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Ethan Park<br><span class="meta">e.park@uni.edu</span></td>
+              <td>BSc Data Science</td>
+              <td class="num">3.5</td>
+              <td>2025-10-02</td>
+              <td><span class="pill rejected">Rejected</span></td>
+              <td class="actions">
+                <div class="actions-bar">
+                  <a class="btn sm outline" href="#">View</a>
+                  <a class="btn sm outline" href="#">Message</a>
+                  <a class="btn sm safe" href="#">Download Resume</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">Student2Success</footer>
+</body>
+</html>
