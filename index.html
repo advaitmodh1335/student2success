@@ -1,43 +1,103 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Student2Success</title>
   <link rel="stylesheet" href="assets/css/base.css">
+
+  <!-- Page-only polish for the home/landing experience -->
+  <style>
+    /* ---------- Logo ---------- */
+    .brand-wrap{display:flex;align-items:center;gap:12px}
+    .wordmark{
+      font-weight:800;letter-spacing:.2px;font-size:1.35rem;
+      color:var(--ink);display:flex;align-items:baseline;gap:2px
+    }
+    .wordmark .accent{color:var(--accent)}
+    .logo-emblem{filter:drop-shadow(0 6px 16px rgba(59,107,231,.25));}
+
+    /* ---------- Hero ---------- */
+    .hero{
+      position:relative;overflow:hidden;border-radius:18px;
+      padding:42px 28px;background:
+        radial-gradient(1200px 500px at 10% -10%, rgba(59,107,231,.08), transparent 60%),
+        radial-gradient(900px 400px at 100% 0%, rgba(30,41,59,.06), transparent 70%),
+        #fff;
+      border:1px solid #e7edf8;
+    }
+    .hero h1{margin:0 0 6px;font-size:2.2rem;line-height:1.15;}
+    .hero .tagline{color:var(--muted);margin:0}
+
+    /* ---------- Cards ---------- */
+    .role-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{
+      position:relative;transition:transform .12s ease, box-shadow .2s ease, border-color .12s ease;
+      border-color:#e7edf8;background:#fff;
+    }
+    .card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(31,45,84,.08);border-color:#d9e5ff;}
+    .card .meta{min-height:44px}
+
+    /* ---------- Decorative underline for sections ---------- */
+    .section-title{display:flex;align-items:center;gap:10px;margin:10px 0 0}
+    .section-title:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,#eaf0ff,transparent)}
+
+    footer.footer.fixed-center{background:transparent}
+  </style>
 </head>
 
 <body>
+  <!-- Header / Hero -->
   <header class="header">
     <div class="topbar">
-      <div class="brand">
-        <h1>Student2Success</h1>
+      <div class="brand-wrap">
+        <!-- SVG logo -->
+        <svg class="logo-emblem" width="40" height="40" viewBox="0 0 40 40" aria-label="Student2Success logo" role="img">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#3B6BE7"/>
+              <stop offset="1" stop-color="#7AA6FF"/>
+            </linearGradient>
+          </defs>
+          <rect x="2.5" y="2.5" width="35" height="35" rx="11" fill="url(#g1)"/>
+          <g fill="#ffffff" font-family="system-ui, Segoe UI, Inter, Roboto, Arial, sans-serif">
+            <text x="10.6" y="25.6" style="font-weight:800;font-size:18px;">S</text>
+            <text x="22.6" y="16.4" style="font-weight:800;font-size:12px;">2</text>
+          </g>
+        </svg>
+        <div class="wordmark"><span>Student</span><span class="accent">2</span><span>Success</span></div>
       </div>
       <nav><a href="#" class="meta">About</a> · <a href="#" class="meta">Help</a></nav>
     </div>
-    <p class="meta">Choose a portal to explore.</p>
+
+    <div class="hero" style="margin-top:14px">
+      <h1>Launch your career. <span style="color:var(--accent)">Faster.</span></h1>
+      <p class="tagline">One place for students, employers, and staff to connect and succeed.</p>
+      <div class="section-title meta">Choose a portal below</div>
+    </div>
   </header>
 
-  <main class="container grid role-grid">
+  <!-- Role Cards (original three options only, no S/E/A symbols) -->
+  <main class="container grid role-grid" style="margin-top:16px">
     <a class="card" href="student/login.html">
       <h2>Student Portal</h2>
-      <p class="meta">Search jobs, manage documents, track applications, update profile.</p>
+      <p class="meta">Search jobs, manage documents, track applications, and update your profile.</p>
       <p><span class="btn">Enter</span></p>
     </a>
+
     <a class="card" href="employer/login.html">
       <h2>Employer Portal</h2>
-      <p class="meta">Post jobs, manage listings, review applicants.</p>
+      <p class="meta">Post roles, manage listings, and review applicants with streamlined tools.</p>
       <p><span class="btn">Enter</span></p>
     </a>
+
     <a class="card" href="staff/login.html">
       <h2>Staff Portal</h2>
-      <p class="meta">Approve postings, view queues, scan statistics.</p>
+      <p class="meta">Approve postings, triage queues, and scan program-wide statistics.</p>
       <p><span class="btn">Enter</span></p>
     </a>
   </main>
 
   <footer class="footer fixed-center">© 2025 Student2Success</footer>
 </body>
-
 </html>
