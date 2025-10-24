@@ -6,18 +6,52 @@
   <link rel="stylesheet" href="../assets/css/base.css">
   <style>
     .wrap{max-width:1100px;margin:0 auto;padding:24px}
+
     .filters{display:grid;gap:14px}
     .chips{display:flex;gap:10px;flex-wrap:wrap}
-    .chip{padding:.5rem .8rem;border:1px solid #2a3556;border-radius:999px;background:#0e1420;color:#e6eaf2;cursor:pointer}
-    .chip[data-on="true"]{background:#1a2540;border-color:#3550a3}
+
+    /* Light (Nordic) chip styles */
+    .chip{
+      padding:.5rem .8rem;
+      border:1px solid #d7deea;
+      border-radius:999px;
+      background:#fff;
+      color:var(--ink);
+      cursor:pointer;
+      transition:background .15s ease,border-color .15s ease,color .15s ease
+    }
+    .chip:hover{background:#f6f8fc}
+    .chip[data-on="true"]{
+      background:#eaf1ff;
+      border-color:#c6d8ff;
+      color:#23407a
+    }
+
     .row4{display:grid;gap:10px;grid-template-columns:repeat(4,1fr)}
-    .btn.ghost{background:transparent;border:1px solid #2a3556;color:#d7e0ee}
-    .result{padding:16px;border-radius:14px;border:1px solid #1c2231;background:#121826;cursor:pointer}
+
+    /* Outline button to match light theme */
+    .btn.ghost{
+      background:#fff;
+      border:1px solid #d7deea;
+      color:var(--ink)
+    }
+    .btn.ghost:hover{background:#f6f8fc;border-color:#c8d2e6}
+
+    /* Result cards tuned for light theme */
+    .result{
+      padding:16px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      cursor:pointer;
+      transition:background .15s ease,border-color .15s ease
+    }
     .result+.result{margin-top:12px}
-    .result:hover{background:#0f1523}
+    .result:hover{background:#f7faff;border-color:#cfe0ff}
     .result h3{margin:0 0 4px}
-    .meta-line{display:flex;gap:16px;color:#9aa6b2}
-    .result h3 a{color:#97b3ff;text-decoration:none}
+    .meta-line{display:flex;gap:16px;color:var(--muted)}
+    .result h3 a{color:var(--accent);text-decoration:none}
+    .result h3 a:hover{text-decoration:underline}
   </style>
 </head>
 <body>

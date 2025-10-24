@@ -1,10 +1,10 @@
 :root{
-  --bg:#0b0e14;
-  --card:#121826;
-  --ink:#e6eaf2;
-  --muted:#9aa6b2;
-  --accent:#5a8dee;
-  --line:#1c2231;
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --ink:#1c2430;
+  --muted:#5a6b85;
+  --accent:#2f6fed;
+  --line:#dbe2ef;
   --radius:14px;
   --container:1100px;
   --s-1:6px; --s-2:10px; --s-3:14px; --s-4:18px; --s-5:24px; --s-6:32px
@@ -37,13 +37,13 @@ h3{margin:0 0 var(--s-2);font-size:1.05rem}
 .crumbs a{color:var(--accent)}
 
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:var(--s-5);transition:transform .08s ease,border-color .08s ease}
-.card:hover{transform:translateY(-2px);border-color:#28324a}
+.card:hover{transform:translateY(-2px);border-color:#cfd8e6}
 
 .btn{display:inline-block;padding:.65rem 1.05rem;border-radius:10px;background:var(--accent);color:#fff;border:0}
 .btn.block{display:block;width:100%}
 
 .label{display:block;margin:.5rem 0 .35rem;color:var(--muted);font-size:.92rem}
-.input,select,textarea{width:100%;padding:.7rem .75rem;border-radius:10px;border:1px solid #263044;background:#0e1420;color:var(--ink)}
+.input,select,textarea{width:100%;padding:.7rem .75rem;border-radius:10px;border:1px solid #cfd8e6;background:#fff;color:var(--ink)}
 
 .auth-box{width:min(560px,92vw);background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:var(--s-5)}
 .auth-title{text-align:center;margin:0 0 var(--s-3);font-size:1.6rem}
@@ -55,9 +55,9 @@ h3{margin:0 0 var(--s-2);font-size:1.05rem}
 .hide{display:none}
 
 .table{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed}
-.table thead th{font-weight:600;color:var(--muted);text-align:left;padding:14px 18px;border-bottom:1px solid #1b2334}
-.table tbody td{padding:14px 18px;border-bottom:1px solid #161e2c;vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.table tbody tr:hover{background:#0f1523}
+.table thead th{font-weight:600;color:var(--muted);text-align:left;padding:14px 18px;border-bottom:1px solid #e1e7f2}
+.table tbody td{padding:14px 18px;border-bottom:1px solid #e9eef6;vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.table tbody tr:hover{background:#eef3ff}
 .table .num{text-align:right}
 .table .actions{text-align:right;white-space:nowrap}
 .table th:nth-child(1),.table td:nth-child(1){width:30%}
@@ -69,19 +69,36 @@ h3{margin:0 0 var(--s-2);font-size:1.05rem}
 .table td:nth-child(5) .badge,.table td:nth-child(5) a{display:inline-block;margin-left:8px}
 .table td:nth-child(3),.table td:nth-child(4){font-variant-numeric:tabular-nums}
 
-.status{display:inline-block;padding:.22rem .6rem;border-radius:999px;border:1px solid #23304a;color:#c7d2e1;font-size:.85rem}
-.status.pending{border-color:#3b3a18;color:#fff2a8}
-.status.approved{border-color:#17412b;color:#baf3d0}
-.status.closed{border-color:#462323;color:#ffb3b3}
+.status{display:inline-block;padding:.22rem .6rem;border-radius:999px;border:1px solid #cfd8e6;color:#374151;font-size:.85rem;background:#fff}
+.status.pending{border-color:#f1c373;color:#8a5a06;background:#fff8eb}
+.status.approved{border-color:#bfe9da;color:#0f7a57;background:#f2fbf7}
+.status.closed{border-color:#f2b8b8;color:#9f1d1d;background:#fff6f6}
 
-.banner{border:1px dashed #2a3550;background:#0f1624;border-radius:12px;padding:12px;color:var(--muted)}
-.banner.ok{border-color:rgba(23,201,100,.35);color:#9cf8c8}
-.banner.warn{border-color:rgba(245,165,36,.35);color:#ffd79c}
+.banner{border:1px dashed #e1e7f2;background:#f7f9fe;border-radius:12px;padding:12px;color:var(--muted)}
+.banner.ok{border-color:rgba(23,201,100,.35);color:#0f7a57}
+.banner.warn{border-color:rgba(245,165,36,.35);color:#8a5a06}
 
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:200}
+.modal-backdrop{position:fixed;inset:0;background:rgba(28,36,48,.35);display:none;align-items:center;justify-content:center;z-index:200}
 .modal-backdrop.show{display:flex}
-.modal{width:min(560px,92vw);background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.modal{width:min(560px,92vw);background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 20px 60px rgba(16,24,40,.12)}
 .modal header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .modal h2{margin:0}
 .close-x{background:transparent;border:0;color:var(--muted);font-size:1.4rem;cursor:pointer}
 .row{margin-top:10px}
+
+/* Employer Jobs – action buttons */
+.btn-edit, .btn.edit{
+  background:#f59e0b;    /* vivid amber */
+  color:#fff;
+  border:0;
+}
+.btn-edit:hover, .btn.edit:hover{ filter:brightness(.95) }
+.btn-edit:focus, .btn.edit:focus{ outline:2px solid rgba(47,111,237,.25); outline-offset:2px }
+
+.btn-close, .btn.close{
+  background:#ef4444;    /* strong red */
+  color:#fff;
+  border:0;
+}
+.btn-close:hover, .btn.close:hover{ filter:brightness(.95) }
+.btn-close:focus, .btn.close:focus{ outline:2px solid rgba(47,111,237,.25); outline-offset:2px }

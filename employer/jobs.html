@@ -5,16 +5,32 @@
   <title>Employer · Jobs</title>
   <link rel="stylesheet" href="../assets/css/base.css">
   <style>
+    :root{ --action-w: 210px }
+
     .wrap{max-width:1100px;margin:0 auto;padding:24px}
-    .btn.sm{padding:.45rem .75rem;font-size:.9rem;border-radius:8px}
-    .btn.outline{background:transparent;border:1px solid #2a3556;color:#d7e0ee}
-    .btn.safe{background:var(--accent);color:#fff;border:0}
-    .jobs-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+
+    .btn{border:0}
+    .btn.xs{padding:.4rem .6rem;font-size:.9rem;border-radius:8px}
+    .btn.safe{background:var(--accent);color:#fff}
+    .btn-edit{background:#f59e0b;color:#fff}
+    .btn-close{background:#ef4444;color:#fff}
+    .btn-edit:hover,.btn-close:hover,.btn.safe:hover{filter:brightness(.95)}
+    .btn-edit:focus,.btn-close:focus,.btn.safe:focus{outline:2px solid rgba(47,111,237,.25);outline-offset:2px}
+
     .jobs-table{table-layout:fixed}
     .jobs-table th:nth-child(1), .jobs-table td:nth-child(1){width:46%}
     .jobs-table th:nth-child(2), .jobs-table td:nth-child(2){width:18%}
     .jobs-table th:nth-child(3), .jobs-table td:nth-child(3){width:12%}
-    .jobs-table th:nth-child(4), .jobs-table td:nth-child(4){width:24%; overflow:visible}
+    .jobs-table th:nth-child(4), .jobs-table td:nth-child(4){width:24%}
+
+    .actions-cell{vertical-align:middle}
+    .jobs-actions{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+    .inline-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:min(100%,var(--action-w))}
+    .inline-actions .btn{width:100%}
+    .jobs-actions .btn.safe{width:min(100%,var(--action-w))}
+    .jobs-actions .btn{display:flex;align-items:center;justify-content:center;text-align:center}
+
+    .jobs-table tbody tr:hover{background:#eef3ff}
   </style>
 </head>
 <body>
@@ -45,11 +61,13 @@
               <td>Software Developer Intern</td>
               <td><span class="status pending">Pending</span></td>
               <td class="num"><a href="applicants.html">12</a></td>
-              <td class="actions">
+              <td class="actions-cell">
                 <div class="jobs-actions">
-                  <a class="btn sm outline" href="post-job.html">Edit</a>
-                  <a class="btn sm outline" href="#">Close</a>
-                  <a class="btn sm safe" href="applicants.html">View Applicants</a>
+                  <div class="inline-actions">
+                    <a class="btn xs btn-edit" href="post-job.html">Edit</a>
+                    <a class="btn xs btn-close" href="#">Close</a>
+                  </div>
+                  <a class="btn xs safe" href="applicants.html">View Applicants</a>
                 </div>
               </td>
             </tr>
@@ -57,11 +75,13 @@
               <td>Web Engineer Co-op</td>
               <td><span class="status approved">Approved</span></td>
               <td class="num"><a href="applicants.html">7</a></td>
-              <td class="actions">
+              <td class="actions-cell">
                 <div class="jobs-actions">
-                  <a class="btn sm outline" href="post-job.html">Edit</a>
-                  <a class="btn sm outline" href="#">Close</a>
-                  <a class="btn sm safe" href="applicants.html">View Applicants</a>
+                  <div class="inline-actions">
+                    <a class="btn xs btn-edit" href="post-job.html">Edit</a>
+                    <a class="btn xs btn-close" href="#">Close</a>
+                  </div>
+                  <a class="btn xs safe" href="applicants.html">View Applicants</a>
                 </div>
               </td>
             </tr>

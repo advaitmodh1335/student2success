@@ -67,7 +67,8 @@
         const href=row.getAttribute('data-href');
         if(href) window.location.href=href;
       });
-      row.addEventListener('mouseenter',()=>row.style.background='#0f1523');
+      // Light-theme hover (Nordic Light): soft accent tint
+      row.addEventListener('mouseenter',()=>row.style.background='rgba(59, 107, 231, 0.08)');
       row.addEventListener('mouseleave',()=>row.style.background='transparent');
     });
   </script>
