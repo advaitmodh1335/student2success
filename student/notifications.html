@@ -2,37 +2,181 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Student · Notifications</title>
-    <link rel="stylesheet" href="../assets/css/base.css">
-    <link rel="stylesheet" href="../assets/css/layout.css">
-    <link rel="stylesheet" href="../assets/css/components.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Student · Notifications</title>
+  <link rel="stylesheet" href="../assets/css/base.css">
+
+  <style>
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px
+    }
+
+    /* Top action bar */
+    .top-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+
+    /* Notification cards */
+    .notice {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border-radius: 16px;
+      background: #fff;
+      /* base border is transparent; each type sets its own color for ALL sides */
+      border: 1px solid transparent;
+    }
+
+    .notice+.notice {
+      margin-top: 16px
+    }
+
+    /* Each type: darker border on ALL sides + thicker left rail + soft tinted bg */
+    .notice.info {
+      --tone: #3B6BE7;
+      border-color: var(--tone);
+      border-left-width: 6px;
+      background: rgba(59, 107, 231, .06);
+    }
+
+    .notice.success {
+      --tone: #16A34A;
+      border-color: var(--tone);
+      border-left-width: 6px;
+      background: rgba(22, 163, 74, .08);
+    }
+
+    .notice.warn {
+      --tone: #EAB308;
+      border-color: var(--tone);
+      border-left-width: 6px;
+      background: rgba(234, 179, 8, .10);
+    }
+
+    .notice.error {
+      --tone: #EF4444;
+      border-color: var(--tone);
+      border-left-width: 6px;
+      background: rgba(239, 68, 68, .08);
+    }
+
+    .notice h3 {
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+      line-height: 1.3
+    }
+
+    .notice .meta {
+      margin: 0;
+      color: var(--muted)
+    }
+
+    .notice .act {
+      margin-left: auto;
+      white-space: nowrap;
+      border: 1px solid #d7deea;
+      border-radius: 999px;
+      background: #fff;
+      padding: .45rem .85rem;
+      color: #0f1626;
+      cursor: pointer;
+    }
+
+    .notice .act:hover {
+      background: #f6f8fc;
+      border-color: #c8d2e6
+    }
+
+    /* Subtle hover */
+    .notice:hover {
+      box-shadow: 0 6px 20px rgba(31, 45, 84, .08)
+    }
+
+    /* Visual state after 'read' */
+    .notice.read {
+      opacity: .55;
+    }
+
+    .notice.read .act {
+      visibility: hidden;
+    }
+  </style>
 </head>
 
 <body>
-    <header class="header">
-        <div class="crumbs"><a href="dashboard.html">← Dashboard</a><span class="meta">/ Notifications</span></div>
-        <h1>Notifications</h1>
-    </header>
+  <header class="header">
+    <nav class="crumbs">
+      <a href="dashboard.html">← Dashboard</a>
+      <span class="meta">/ Notifications</span>
+    </nav>
+    <h1>Notifications</h1>
+  </header>
 
-    <main class="container grid">
-        <div class="card list-item">
-            <div>
-                <strong>New job match:</strong> Frontend Intern at UI Labs
-                <div class="meta">2h ago</div>
-            </div><span class="badge">Mark as read</span>
+  <main>
+    <div class="wrap">
+
+      <!-- Mark all as read -->
+      <div class="top-actions">
+        <button id="markAll" class="notice-act-all"
+          style="border:1px solid #d7deea;border-radius:999px;background:#fff;padding:.55rem 1rem;color:#0f1626;cursor:pointer;">
+          Mark all as read
+        </button>
+      </div>
+
+      <!-- Blue / info -->
+      <div class="notice info">
+        <div>
+          <h3><strong>New job match:</strong> Frontend Intern at UI Labs</h3>
+          <p class="meta">2h ago</p>
         </div>
+        <button class="act">Mark as read</button>
+      </div>
 
-        <div class="card list-item">
-            <div>
-                <strong>Application update:</strong> Data Analyst Intern – Interview Scheduled
-                <div class="meta">Yesterday</div>
-            </div><span class="badge">Mark as read</span>
+      <!-- Green / success -->
+      <div class="notice success">
+        <div>
+          <h3><strong>Application update:</strong> Data Analyst Intern – Interview Scheduled</h3>
+        <p class="meta">Yesterday</p>
         </div>
-    </main>
+        <button class="act">Mark as read</button>
+      </div>
 
-    <footer class="footer">Student2Success</footer>
+      <!-- Yellow / warning -->
+      <div class="notice warn">
+        <div>
+          <h3><strong>Action needed:</strong> Resume is missing a phone number</h3>
+          <p class="meta">3 days ago</p>
+        </div>
+        <button class="act">Mark as read</button>
+      </div>
+
+      <!-- Red / alert -->
+      <div class="notice error">
+        <div>
+          <h3><strong>Deadline today:</strong> Submit cover letter for Web Engineer Co-op</h3>
+          <p class="meta">Due in 6 hours</p>
+        </div>
+        <button class="act">Mark as read</button>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">Student2Success</footer>
+
+  <script>
+    // "Mark all as read" — just a visual state change for this prototype
+    document.getElementById('markAll').addEventListener('click', () => {
+      document.querySelectorAll('.notice').forEach(n => n.classList.add('read'));
+    });
+  </script>
 </body>
 
 </html>
