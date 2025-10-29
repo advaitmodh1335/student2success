@@ -8,11 +8,9 @@
   <title>Student · Dashboard</title>
   <link rel="stylesheet" href="../assets/css/base.css">
   <style>
-    /* Layout scaffold so footer sticks to bottom */
     html,body{height:100%}
     body{min-height:100vh;display:flex;flex-direction:column}
 
-    /* Full-width top bar so items are truly at the page edges in Chrome */
     .topbar{
       width:100%;
       display:flex;
@@ -22,18 +20,23 @@
       border-bottom:1px solid var(--line)
     }
 
-    /* Stack brand and Home vertically (below) */
+    /* Left: brand (stack stays harmless even with one item) */
     .leftstack{
       display:flex;
-      flex-direction:column;   /* <-- changed */
-      align-items:flex-start;  /* keep left aligned */
-      gap:6px;                 /* nice breathing room */
+      flex-direction:column;
+      align-items:flex-start;
+      gap:6px;
     }
-
     .brand{font-weight:700;text-decoration:none;color:var(--ink)}
     .brand:hover{text-decoration:underline}
 
-    /* Avatar button (top-right) */
+    /* Right: avatar + logout side-by-side */
+    .rightbar{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
     .avatar{
       width:44px;height:44px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
       background:#1b2540;border:1px solid #2a3556;text-decoration:none
@@ -41,10 +44,12 @@
     .avatar:hover{background:#22315b}
     .avatar svg{width:22px;height:22px;stroke:#e6eaf2}
 
-    /* Centered content area for the rest of the page */
+    /* Keep logout as a simple link; use meta for subtlety */
+    .logout{color:var(--ink); text-decoration:none; border:1px solid var(--line); padding:6px 10px; border-radius:10px}
+    .logout:hover{background:#fff}
+
     .wrap{max-width:1100px;margin:0 auto;padding:24px}
 
-    /* Tiles: exactly 2 per row on desktop; 1 per row on small */
     .tiles{display:grid;gap:16px;grid-template-columns:repeat(2,minmax(280px,1fr))}
     @media (max-width:720px){.tiles{grid-template-columns:1fr}}
     .tile{display:block}
@@ -54,21 +59,22 @@
   </style>
 </head>
 <body>
-  <!-- Full-width top bar -->
   <div class="topbar">
     <div class="leftstack">
       <a class="brand" href="../index.html">Student2Success</a>
-      <a class="crumbs" href="../index.html">← Home</a>
     </div>
-    <a href="profile.html" class="avatar" aria-label="Profile">
-      <svg viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="8" r="4" stroke-width="1.7"/>
-        <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke-width="1.7" stroke-linecap="round"/>
-      </svg>
-    </a>
+
+    <div class="rightbar">
+      <a href="../index.html" class="logout">Logout</a>
+      <a href="profile.html" class="avatar" aria-label="Profile">
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke-width="1.7"/>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
   </div>
 
-  <!-- Page title and tiles live in the centered wrap -->
   <header class="wrap">
     <h1>Student Dashboard</h1>
   </header>
