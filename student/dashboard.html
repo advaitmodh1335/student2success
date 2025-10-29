@@ -13,15 +13,31 @@
     body{min-height:100vh;display:flex;flex-direction:column}
 
     /* Full-width top bar so items are truly at the page edges in Chrome */
-    .topbar{width:100%;display:flex;justify-content:space-between;align-items:center;
-            padding:16px 24px;border-bottom:1px solid var(--line)}
-    .leftstack{display:flex;align-items:center;gap:14px}
+    .topbar{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 24px;
+      border-bottom:1px solid var(--line)
+    }
+
+    /* Stack brand and Home vertically (below) */
+    .leftstack{
+      display:flex;
+      flex-direction:column;   /* <-- changed */
+      align-items:flex-start;  /* keep left aligned */
+      gap:6px;                 /* nice breathing room */
+    }
+
     .brand{font-weight:700;text-decoration:none;color:var(--ink)}
     .brand:hover{text-decoration:underline}
 
     /* Avatar button (top-right) */
-    .avatar{width:44px;height:44px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
-            background:#1b2540;border:1px solid #2a3556;text-decoration:none}
+    .avatar{
+      width:44px;height:44px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
+      background:#1b2540;border:1px solid #2a3556;text-decoration:none
+    }
     .avatar:hover{background:#22315b}
     .avatar svg{width:22px;height:22px;stroke:#e6eaf2}
 
