@@ -11,18 +11,50 @@
   <link rel="stylesheet" href="../assets/css/layout.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <style>
-    .actions-group{display:flex;gap:8px;flex-wrap:wrap}
+    /* ---------- Wrapper ---------- */
+    .docs-wrap { max-width: 1100px; margin: 0 auto; }
 
+    /* ---------- Table layout ---------- */
+    .docs-table { table-layout: fixed; width: 100%; }
+    .docs-table col:nth-child(1) { width: 34%; }  /* Name */
+    .docs-table col:nth-child(2) { width: 18%; }  /* Type */
+    .docs-table col:nth-child(3) { width: 18%; }  /* Uploaded */
+    .docs-table col:nth-child(4) { width: 10%; }  /* Size */
+    .docs-table col:nth-child(5) { width: 20%; }  /* Actions */
+
+    .docs-table th, .docs-table td { vertical-align: middle; padding-top:.6rem; padding-bottom:.6rem; }
+    .docs-table td.num, .docs-table th.num { text-align: right; }
+
+    /* Keep Actions column from blowing out */
+    .docs-table td:last-child, .docs-table th:last-child { min-width: 240px; }
+
+    /* ---------- Actions grid (strict 2 × 2) ---------- */
+    .actions-group{
+      display:grid;
+      grid-template-columns: 1fr 1fr;    /* equal columns so Download sits under Rename */
+      gap:16px;
+      align-items:center;
+      justify-items:stretch;
+      min-width:0;
+    }
+
+    /* ---------- Compact pill buttons ---------- */
     .pill{
-      padding:.38rem .75rem;
+      display:flex;                      /* ensures perfect centering */
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      padding:.22rem .5rem;
       border-radius:999px;
-      font-size:.9rem;
-      line-height:1;
+      font-size:.82rem;
+      line-height:1.1;
       border:1px solid #d7deea;
       background:#fff;
       color:var(--ink);
       cursor:pointer;
-      transition:background .15s ease,border-color .15s ease,color .15s ease
+      text-decoration:none;
+      white-space:nowrap;
+      box-sizing:border-box;
     }
     .pill.neutral:hover{background:#f6f8fc;border-color:#c8d2e6}
     .pill.success{border-color:#bfe6cf;background:#effaf3;color:#256d3d}
@@ -30,12 +62,15 @@
     .pill.danger{border-color:#f2c7c7;background:#fff6f6;color:#b3261e}
     .pill.danger:hover{background:#ffecec;border-color:#efb2b2}
 
-    /* make only the Delete pill span beneath the two pills above and align nicely */
-    .actions-group .pill.danger{
-      flex-basis:100%;
-      width:min(420px,82%);
-      justify-content:center;
-      align-self:center;
+    /* ---------- Responsive: stack actions on narrow screens ---------- */
+    @media (max-width: 900px){
+      .docs-table col:nth-child(1){ width: 42%; }
+      .docs-table col:nth-child(2){ width: 20%; }
+      .docs-table col:nth-child(3){ width: 20%; }
+      .docs-table col:nth-child(4){ width: 8%; }
+      .docs-table col:nth-child(5){ width: 10%; }
+      .docs-table td:last-child, .docs-table th:last-child { min-width: 180px; }
+      .actions-group{ grid-template-columns: 1fr; }  /* stack pills vertically */
     }
   </style>
 </head>
@@ -47,7 +82,8 @@
     <p class="meta">Upload and manage application files.</p>
   </header>
 
-  <main class="container grid cols-2">
+  <main class="docs-wrap grid cols-2">
+    <!-- Upload card -->
     <section class="card">
       <h3>Upload New Document</h3>
       <label class="label" for="dtype">Document Type</label>
@@ -56,22 +92,29 @@
         <option>Cover Letter</option>
         <option>Transcript</option>
       </select>
+
       <label class="label" for="file">Choose File</label>
       <input id="file" type="file" class="input">
+
       <label class="label" for="label">Label / Version</label>
       <input id="label" class="input" placeholder="e.g., Resume v2">
+
       <p class="mt-16"><button class="btn">Upload</button></p>
     </section>
 
+    <!-- Manage card -->
     <section class="card">
       <h3>Manage Documents</h3>
-      <table class="table">
+      <table class="table docs-table">
+        <colgroup>
+          <col><col><col><col><col>
+        </colgroup>
         <thead>
           <tr>
             <th>Name</th>
             <th>Type</th>
             <th>Uploaded</th>
-            <th class="hide-sm">Size</th>
+            <th class="num">Size</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -80,24 +123,28 @@
             <td>Resume.pdf</td>
             <td>Resume</td>
             <td>2025-01-15</td>
-            <td class="hide-sm">24KB</td>
+            <td class="num">24KB</td>
             <td>
+              <!-- Order matters for the 2×2 layout -->
               <div class="actions-group">
                 <button type="button" class="pill neutral">Rename</button>
                 <button type="button" class="pill success">Set Default</button>
+                <a class="pill neutral" href="Resume.pdf" download aria-label="Download Resume.pdf">Download</a>
                 <button type="button" class="pill danger">Delete</button>
               </div>
             </td>
           </tr>
+
           <tr>
             <td>CoverLetter.pdf</td>
             <td>Cover Letter</td>
             <td>2025-02-10</td>
-            <td class="hide-sm">18KB</td>
+            <td class="num">18KB</td>
             <td>
               <div class="actions-group">
                 <button type="button" class="pill neutral">Rename</button>
                 <button type="button" class="pill success">Set Default</button>
+                <a class="pill neutral" href="CoverLetter.pdf" download aria-label="Download CoverLetter.pdf">Download</a>
                 <button type="button" class="pill danger">Delete</button>
               </div>
             </td>
