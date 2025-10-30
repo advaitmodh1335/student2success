@@ -19,42 +19,22 @@
       padding:16px 24px;
       border-bottom:1px solid var(--line)
     }
-
-    /* Left: brand (stack stays harmless even with one item) */
-    .leftstack{
-      display:flex;
-      flex-direction:column;
-      align-items:flex-start;
-      gap:6px;
-    }
+    .leftstack{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
     .brand{font-weight:700;text-decoration:none;color:var(--ink)}
     .brand:hover{text-decoration:underline}
 
-    /* Right: avatar + logout side-by-side */
-    .rightbar{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
-    .avatar{
-      width:44px;height:44px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
-      background:#1b2540;border:1px solid #2a3556;text-decoration:none
-    }
+    .rightbar{display:flex;align-items:center;gap:12px}
+    .avatar{width:44px;height:44px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:#1b2540;border:1px solid #2a3556;text-decoration:none}
     .avatar:hover{background:#22315b}
     .avatar svg{width:22px;height:22px;stroke:#e6eaf2}
-
-    /* Keep logout as a simple link; use meta for subtlety */
-    .logout{color:var(--ink); text-decoration:none; border:1px solid var(--line); padding:6px 10px; border-radius:10px}
+    .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
     .logout:hover{background:#fff}
 
     .wrap{max-width:1100px;margin:0 auto;padding:24px}
-
     .tiles{display:grid;gap:16px;grid-template-columns:repeat(2,minmax(280px,1fr))}
     @media (max-width:720px){.tiles{grid-template-columns:1fr}}
     .tile{display:block}
     .tile h3{margin:.2rem 0}
-
     main{flex:1}
   </style>
 </head>
@@ -99,6 +79,12 @@
       <a class="card tile" href="applications.html">
         <h3>Applications</h3>
         <p class="meta">Track statuses and dates.</p>
+      </a>
+
+      <!-- New tile -->
+      <a class="card tile" href="saved-jobs.html">
+        <h3>Saved Jobs</h3>
+        <p class="meta">View and manage roles you’ve saved.</p>
       </a>
     </div>
   </main>

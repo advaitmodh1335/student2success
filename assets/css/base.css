@@ -124,11 +124,11 @@ h3{margin:0 0 var(--s-2);font-size:1.05rem}
 
 /* =========================================================
    Compact, reusable "pill" controls + action grid
-   (used in Documents > Actions and similar places)
+   (used in Documents/Saved Jobs > Actions and similar places)
    ========================================================= */
 .actions-group{
   display:grid;
-  grid-template-columns: 1fr 1fr;    /* Download sits directly under Rename */
+  grid-template-columns: 1fr 1fr;    /* Download sits directly under Rename (same column) */
   column-gap:12px;                   /* space between left/right pills */
   row-gap:8px;                       /* space between rows */
   align-items:center;
@@ -173,6 +173,6 @@ a.pill:focus{
   .actions-group{ grid-template-columns:1fr; }
 }
 
-/* Center the Actions header, keep cells left-aligned for the grid */
+/* Center the "Actions" column header; keep cells left-aligned for the grid */
 .table thead th:nth-child(5){ text-align:center; }
 .table tbody td:nth-child(5){ text-align:left; }
