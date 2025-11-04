@@ -3,41 +3,103 @@
 
 <!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Student · Profile</title>
-    <link rel="stylesheet" href="../assets/css/base.css">
-    <link rel="stylesheet" href="../assets/css/layout.css">
-    <link rel="stylesheet" href="../assets/css/components.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Student · Profile</title>
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <style>
+    /* Center the save button under the form cards */
+    .actions-row{
+      max-width:1100px;
+      margin:0 auto;
+      padding:0 24px 24px;
+      display:flex;
+      justify-content:center; /* ⟵ changed from flex-end to center */
+      gap:10px;
+    }
+
+    .btn{display:inline-block;padding:.65rem 1.05rem;border-radius:10px;border:0}
+    .btn.safe{background:var(--accent);color:#fff}
+    .btn.safe:hover{filter:brightness(.96)}
+
+    /* Small success toast */
+    .toast{
+      position:fixed;right:24px;bottom:24px;
+      background:#0f7a57;color:#fff;padding:.6rem .9rem;border-radius:10px;
+      box-shadow:0 12px 30px rgba(0,0,0,.15);
+      opacity:0;transform:translateY(10px);
+      transition:opacity .18s ease, transform .18s ease;
+      pointer-events:none;
+    }
+    .toast.show{opacity:1;transform:translateY(0)}
+  </style>
 </head>
 
 <body>
-    <header class="header">
-        <div class="crumbs"><a href="dashboard.html">← Dashboard</a><span class="meta">/ Profile</span></div>
-        <h1>Profile</h1>
-    </header>
+  <header class="header">
+    <div class="crumbs"><a href="dashboard.html">← Dashboard</a><span class="meta">/ Profile</span></div>
+    <h1>Profile</h1>
+  </header>
 
-    <main class="container grid cols-2">
-        <section class="card">
-            <h3>Personal</h3>
-            <label class="label" for="name">Full Name</label>
-            <input id="name" class="input" placeholder="Your name">
-            <label class="label" for="email">Email</label>
-            <input id="email" class="input" placeholder="you@example.com">
-        </section>
+  <main class="container grid cols-2">
+    <section class="card">
+      <h3>Personal</h3>
+      <label class="label" for="name">Full Name</label>
+      <input id="name" class="input" placeholder="Your name">
+      <label class="label" for="email">Email</label>
+      <input id="email" class="input" placeholder="you@example.com">
+    </section>
 
-        <section class="card">
-            <h3>Academic</h3>
-            <label class="label" for="program">Program</label>
-            <input id="program" class="input" placeholder="BSc Computer Science">
-            <label class="label" for="grad">Expected Graduation</label>
-            <input id="grad" class="input" placeholder="2027">
-        </section>
-    </main>
+    <section class="card">
+      <h3>Academic</h3>
+      <label class="label" for="program">Program</label>
+      <input id="program" class="input" placeholder="BSc Computer Science">
+      <label class="label" for="grad">Expected Graduation</label>
+      <input id="grad" class="input" placeholder="2027">
+    </section>
+  </main>
 
-    <footer class="footer">Student2Success</footer>
+  <!-- Actions -->
+  <div class="actions-row">
+    <button id="saveProfile" class="btn safe">Save changes</button>
+  </div>
+
+  <footer class="footer">Student2Success</footer>
+
+  <!-- Success toast -->
+  <div id="saveToast" class="toast" role="status" aria-live="polite">Profile saved</div>
+
+  <script>
+    // Lightweight save handler (prototype): logs values & shows toast
+    document.getElementById('saveProfile').addEventListener('click', () => {
+      const data = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        program: document.getElementById('program').value.trim(),
+        grad: document.getElementById('grad').value.trim()
+      };
+      console.log('Saving profile…', data);
+
+      try { localStorage.setItem('student_profile', JSON.stringify(data)); } catch(e) {}
+
+      const toast = document.getElementById('saveToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1500);
+    });
+
+    // Pre-fill from localStorage for quick testing
+    (function hydrate(){
+      try {
+        const saved = JSON.parse(localStorage.getItem('student_profile')||'{}');
+        if(saved.name)   document.getElementById('name').value = saved.name;
+        if(saved.email)  document.getElementById('email').value = saved.email;
+        if(saved.program)document.getElementById('program').value = saved.program;
+        if(saved.grad)   document.getElementById('grad').value = saved.grad;
+      } catch(e) {}
+    })();
+  </script>
 </body>
-
 </html>
