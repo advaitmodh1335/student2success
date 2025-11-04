@@ -12,45 +12,58 @@
     .toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap}
     .search{flex:1;min-width:260px}
 
-    /* Buttons tuned for the light theme */
+    /* Buttons */
     .btn.sm{padding:.45rem .75rem;font-size:.9rem;border-radius:8px}
     .btn.outline{background:#fff;border:1px solid #d7deea;color:#2f3b54}
     .btn.outline:hover{background:#f6f8fc;border-color:#c8d2e6}
     .btn.safe{background:var(--accent);color:#fff;border:0}
     .btn.safe:hover{filter:brightness(.96)}
-
-    /* Pills + visibility fix */
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      padding:.36rem .9rem;
-      border-radius:999px;
-      border:1px solid #cfd7e6;
-      background:#fff;
-      color:#52607a;
-      line-height:1;
-    }
-    .pill.review{background:#fff;color:#52607a;border-color:#cfd7e6}
-    .pill.interview{background:#f4fbf7;color:#18794e;border-color:#b9e4ce}
-    .pill.rejected{background:#fff5f5;color:#b42318;border-color:#f2c2c2}
-
     .actions-bar{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
 
+    /* Table sizing */
     .apps-table{table-layout:fixed}
     .apps-table th:nth-child(1), .apps-table td:nth-child(1){width:26%}
     .apps-table th:nth-child(2), .apps-table td:nth-child(2){width:16%}
     .apps-table th:nth-child(3), .apps-table td:nth-child(3){width:10%}
     .apps-table th:nth-child(4), .apps-table td:nth-child(4){width:14%}
     .apps-table th:nth-child(5), .apps-table td:nth-child(5){width:12%}
-    .apps-table th:nth-child(6), .apps-table td:nth-child(6){width:22%;overflow:visible}
-
-    /* OVERRIDE base.css so the pill isn't clipped in Status column */
-    .apps-table td:nth-child(5){
-      overflow:visible;
-      white-space:nowrap;
-    }
+    .apps-table th:nth-child(6), .apps-table td:nth-child(6){width:22%}
+    .apps-table td:nth-child(5){overflow:visible;white-space:nowrap}
 
     .tagline{color:var(--muted);font-size:.95rem}
+
+    /* -------- Pill-style dropdown -------- */
+    .pill-dd{position:relative;display:inline-block}
+    .pill-select{
+      -webkit-appearance:none;appearance:none;
+      padding:.56rem 2.6rem .56rem 1.1rem;
+      border-radius:999px;border:1px solid #cfd7e6;
+      background:#fff;color:#52607a;line-height:1.0;
+      font-size:.75rem;cursor:pointer;
+      min-width:clamp(7.0rem,9ch,10rem)
+    }
+    .pill-dd::after{
+      content:"";position:absolute;right:.8rem;top:50%;transform:translateY(-50%);
+      width:12px;height:12px;pointer-events:none;
+      background:
+        linear-gradient(45deg,transparent 50%,#52607a 50%) bottom left/50% 50% no-repeat,
+        linear-gradient(-45deg,transparent 50%,#52607a 50%) bottom right/50% 50% no-repeat;
+    }
+
+    .pill-select[data-status="review"]{background:#fff;color:#52607a;border-color:#cfd7e6}
+    .pill-select[data-status="interview"]{background:#eef8ff;color:#0b63c9;border-color:#b8d8ff}
+    .pill-select[data-status="rejected"]{background:#fff5f5;color:#b42318;border-color:#f2c2c2}
+    .pill-select[data-status="approved"]{background:#f4fbf7;color:#18794e;border-color:#b9e4ce}
+
+    /* Save toast */
+    .toast{
+      position:fixed;right:24px;bottom:24px;
+      background:#0f7a57;color:#fff;padding:.6rem .9rem;border-radius:10px;
+      box-shadow:0 12px 30px rgba(0,0,0,.15);
+      opacity:0;transform:translateY(10px);pointer-events:none;
+      transition:opacity .18s ease, transform .18s ease
+    }
+    .toast.show{opacity:1;transform:translateY(0)}
   </style>
 </head>
 <body>
@@ -74,8 +87,11 @@
             <option value="">Filter by status</option>
             <option>Under Review</option>
             <option>Interview</option>
+            <option>Approved</option>
             <option>Rejected</option>
           </select>
+          <!-- NEW: Save changes button -->
+          <button id="saveChanges" class="btn safe">Save changes</button>
         </div>
       </div>
 
@@ -97,7 +113,16 @@
               <td>BSc Computer Science</td>
               <td class="num">3.7</td>
               <td>2025-10-05</td>
-              <td><span class="pill review">Under Review</span></td>
+              <td>
+                <span class="pill-dd">
+                  <select class="pill-select" aria-label="Status for Alex Johnson">
+                    <option selected>Under Review</option>
+                    <option>Interview</option>
+                    <option>Approved</option>
+                    <option>Rejected</option>
+                  </select>
+                </span>
+              </td>
               <td class="actions">
                 <div class="actions-bar">
                   <a class="btn sm outline" href="#">View</a>
@@ -106,12 +131,22 @@
                 </div>
               </td>
             </tr>
+
             <tr>
               <td>Maya Patel<br><span class="meta">maya.patel@uni.edu</span></td>
               <td>BSc Software Engineering</td>
               <td class="num">3.9</td>
               <td>2025-10-04</td>
-              <td><span class="pill interview">Interview</span></td>
+              <td>
+                <span class="pill-dd">
+                  <select class="pill-select" aria-label="Status for Maya Patel">
+                    <option>Under Review</option>
+                    <option selected>Interview</option>
+                    <option>Approved</option>
+                    <option>Rejected</option>
+                  </select>
+                </span>
+              </td>
               <td class="actions">
                 <div class="actions-bar">
                   <a class="btn sm outline" href="#">View</a>
@@ -120,12 +155,22 @@
                 </div>
               </td>
             </tr>
+
             <tr>
               <td>Ethan Park<br><span class="meta">e.park@uni.edu</span></td>
               <td>BSc Data Science</td>
               <td class="num">3.5</td>
               <td>2025-10-02</td>
-              <td><span class="pill rejected">Rejected</span></td>
+              <td>
+                <span class="pill-dd">
+                  <select class="pill-select" aria-label="Status for Ethan Park">
+                    <option>Under Review</option>
+                    <option>Interview</option>
+                    <option>Approved</option>
+                    <option selected>Rejected</option>
+                  </select>
+                </span>
+              </td>
               <td class="actions">
                 <div class="actions-bar">
                   <a class="btn sm outline" href="#">View</a>
@@ -141,5 +186,37 @@
   </main>
 
   <footer class="footer">Student2Success</footer>
+
+  <!-- success toast -->
+  <div id="saveToast" class="toast" role="status" aria-live="polite">Changes saved</div>
+
+  <script>
+    // Map display text → style token
+    const STATUS_TOKEN = {
+      "Under Review": "review",
+      "Interview": "interview",
+      "Rejected": "rejected",
+      "Approved": "approved"
+    };
+
+    function applyStatusAppearance(sel){
+      sel.dataset.status = STATUS_TOKEN[sel.value] || "review";
+    }
+
+    // Initialize + bind status styles
+    document.querySelectorAll('.pill-select').forEach(sel=>{
+      applyStatusAppearance(sel);
+      sel.addEventListener('change', ()=>applyStatusAppearance(sel));
+    });
+
+    // Save changes handler (demo: logs values, shows toast)
+    document.getElementById('saveChanges').addEventListener('click', ()=>{
+      const statuses = Array.from(document.querySelectorAll('.pill-select')).map(sel => sel.value);
+      console.log('Saved statuses:', statuses);
+      const toast = document.getElementById('saveToast');
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'), 1500);
+    });
+  </script>
 </body>
 </html>
