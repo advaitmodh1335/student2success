@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../assets/css/components.css">
 
   <style>
-    /* Match Job Search details: 2fr / 1fr with a responsive collapse */
+    /* Layout: 2fr / 1fr with a responsive collapse */
     .grid.cols-2{display:grid;grid-template-columns:2fr 1fr;gap:16px}
     @media (max-width:900px){.grid.cols-2{grid-template-columns:1fr}}
 
@@ -36,7 +36,7 @@
 
     /* Scrollable details column (left card) */
     .details-scroll{
-      max-height: 420px;   /* adjust as desired */
+      max-height: 420px;
       overflow: auto;
       padding-right: 8px;
     }
@@ -47,6 +47,21 @@
 
     /* Ensure action buttons fill the side card width */
     .actions-card .btn{ width:100% }
+
+    /* Small helper styles for modal content */
+    .modal .meta{ color:var(--muted) }
+    .modal .btn-row{ display:flex; gap:10px; justify-content:flex-end; margin-top:12px }
+    .modal textarea{ width:100%; min-height:110px; }
+    .checkmark{
+      display:inline-block; width:26px; height:26px; border-radius:999px;
+      background:#16a34a; color:#fff; line-height:26px; text-align:center; font-weight:700;
+      margin-right:8px;
+    }
+    .xmark{
+      display:inline-block; width:26px; height:26px; border-radius:999px;
+      background:#ef4444; color:#fff; line-height:26px; text-align:center; font-weight:700;
+      margin-right:8px;
+    }
   </style>
 </head>
 <body>
@@ -59,7 +74,6 @@
     <p class="meta">Tech Corp · Remote · $25/hr · Submitted 2025-10-20</p>
   </header>
 
-  <!-- Same structure as Job Search details -->
   <main class="container grid cols-2">
     <!-- LEFT: Scrollable job description -->
     <section class="card">
@@ -88,13 +102,111 @@
       </div>
     </section>
 
-    <!-- RIGHT: Approve / Decline (color coded) -->
+    <!-- RIGHT: Approve / Decline -->
     <aside class="card actions-card" aria-label="Review actions">
-      <p><button class="btn btn-approve" aria-label="Approve application">Approve</button></p>
-      <p><button class="btn btn-decline" aria-label="Decline application">Decline</button></p>
+      <p><button id="approveBtn" class="btn btn-approve" aria-label="Approve application">Approve</button></p>
+      <p><button id="declineBtn" class="btn btn-decline" aria-label="Decline application">Decline</button></p>
     </aside>
   </main>
 
   <footer class="footer">Student2Success</footer>
+
+  <!-- ======= Modals (use base.css modal styles) ======= -->
+  <!-- Backdrop container (reused for both modals) -->
+  <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+    <!-- APPROVE MODAL -->
+    <div id="approveModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="approveTitle" aria-describedby="approveDesc" style="display:none">
+      <header>
+        <h2 id="approveTitle"><span class="checkmark">✓</span>Application approved</h2>
+        <button class="close-x" type="button" data-close>×</button>
+      </header>
+      <p id="approveDesc" class="meta">The application has been successfully approved.</p>
+      <div class="btn-row">
+        <button class="btn" type="button" data-close>Done</button>
+      </div>
+    </div>
+
+    <!-- DECLINE MODAL -->
+    <div id="declineModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="declineTitle" aria-describedby="declineDesc" style="display:none">
+      <header>
+        <h2 id="declineTitle"><span class="xmark">✕</span>Application declined</h2>
+        <button class="close-x" type="button" data-close>×</button>
+      </header>
+      <p id="declineDesc" class="meta">The application was declined. Optionally add feedback for the employer below.</p>
+      <label class="label" for="declineFeedback">Feedback (optional)</label>
+      <textarea id="declineFeedback" class="input" placeholder="Briefly explain the decision…"></textarea>
+      <div class="btn-row">
+        <button class="btn ghost" type="button" data-close>Close</button>
+        <button id="sendFeedbackBtn" class="btn" type="button">Send feedback</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const backdrop = document.getElementById('modalBackdrop');
+      const approveModal = document.getElementById('approveModal');
+      const declineModal = document.getElementById('declineModal');
+      const approveBtn = document.getElementById('approveBtn');
+      const declineBtn = document.getElementById('declineBtn');
+      const sendFeedbackBtn = document.getElementById('sendFeedbackBtn');
+      const feedbackInput = document.getElementById('declineFeedback');
+
+      function openModal(which){
+        // Show backdrop and the chosen modal
+        backdrop.classList.add('show');
+        backdrop.setAttribute('aria-hidden', 'false');
+        if(which === 'approve'){
+          approveModal.style.display = 'block';
+          approveModal.focus();
+        }else{
+          declineModal.style.display = 'block';
+          declineModal.focus();
+        }
+        // lock scrolling behind the modal
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal(){
+        approveModal.style.display = 'none';
+        declineModal.style.display = 'none';
+        backdrop.classList.remove('show');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      // Open handlers
+      approveBtn.addEventListener('click', ()=> openModal('approve'));
+      declineBtn.addEventListener('click', ()=> openModal('decline'));
+
+      // Close handlers for any [data-close] element
+      backdrop.addEventListener('click', (e)=>{
+        // Close only if clicking backdrop (not inside modal) or any [data-close]
+        if(e.target === backdrop || e.target.closest('[data-close]')){
+          closeModal();
+        }
+      });
+
+      // Esc key closes
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape' && backdrop.classList.contains('show')){
+          closeModal();
+        }
+      });
+
+      // Fake "send" action
+      sendFeedbackBtn.addEventListener('click', ()=>{
+        const msg = (feedbackInput.value || '').trim();
+        // Simulate send; you could POST here instead
+        sendFeedbackBtn.disabled = true;
+        sendFeedbackBtn.textContent = 'Sending…';
+        setTimeout(()=>{
+          sendFeedbackBtn.textContent = 'Sent ✓';
+          // Auto-close after a brief moment
+          setTimeout(closeModal, 700);
+        }, 600);
+      });
+    })();
+  </script>
 </body>
 </html>
