@@ -8,7 +8,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Staff · Statistics</title>
 
-  <!-- keep your site styles -->
   <link rel="stylesheet" href="../assets/css/base.css" />
   <link rel="stylesheet" href="../assets/css/layout.css" />
   <link rel="stylesheet" href="../assets/css/components.css" />
@@ -16,25 +15,71 @@
   <style>
     /* light theme, match page background */
     :root{
-      --ink:#1f2937;        /* text */
-      --muted:#6b7280;      /* subtle text */
-      --card:#ffffff;       /* card bg */
-      --grid:#e7edf8;       /* light grid lines */
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --grid:#e7edf8;
     }
-    .card h3{ margin-bottom:10px; }
-    .chart-shell{
+
+    /* Top bar (brand + logout) */
+    .topbar{
       width:100%;
-      height:260px;
-      position:relative;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 24px;
+      border-bottom:1px solid var(--line);
     }
-    @media (max-width:900px){
-      .chart-shell{ height:220px; }
+    .brand{font-weight:700;text-decoration:none;color:var(--ink)}
+    .brand:hover{text-decoration:underline}
+    .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
+    .logout:hover{background:#fff}
+
+    /* Full-width back row */
+    .back-strip{
+      width:100%;
+      padding:16px 24px 0;
+      display:flex;
+      justify-content:flex-start;
     }
+    .backbtn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#fff;color:var(--ink);
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:.45rem .8rem;
+      text-decoration:none;cursor:pointer;
+    }
+    .backbtn:hover{background:#f6f8fc;border-color:#c8d2e6}
+    .backbtn svg{width:18px;height:18px;stroke:currentColor}
+
+    /* Centered title */
+    .page-header{max-width:1100px;margin:0 auto;padding:12px 24px 24px}
+    .page-header h1{margin:0;text-align:center}
+
+    .card h3{ margin-bottom:10px; }
+    .chart-shell{ width:100%; height:260px; position:relative; }
+    @media (max-width:900px){ .chart-shell{ height:220px; } }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="crumbs"><a href="dashboard.html">← Dashboard</a><span class="meta">/ Statistics</span></div>
+  <!-- Top bar -->
+  <div class="topbar">
+    <a class="brand" href="../index.html">Student2Success</a>
+    <a href="../index.html" class="logout">Logout</a>
+  </div>
+
+  <!-- Back button aligned to page left -->
+  <div class="back-strip">
+    <button class="backbtn" type="button"
+      onclick="history.length>1 ? history.back() : (window.location.href='dashboard.html')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Back</span>
+    </button>
+  </div>
+
+  <!-- Centered title -->
+  <header class="page-header">
     <h1>Statistics</h1>
   </header>
 
@@ -60,7 +105,6 @@
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script>
-    // Colors (light, to match your page theme)
     const ink = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#1f2937';
     const grid = getComputedStyle(document.documentElement).getPropertyValue('--grid').trim() || '#e7edf8';
 
@@ -74,48 +118,27 @@
     const closedFill   = '#ef4444';
     const closedLine   = '#dc2626';
 
-    // Shared cartesian options
     const baseCartesian = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: {
-          labels: { color: ink, boxWidth: 16, boxHeight: 16 }
-        },
-        tooltip: {
-          backgroundColor: '#ffffff',
-          titleColor: ink,
-          bodyColor: ink,
-          borderColor: grid,
-          borderWidth: 1
-        }
+        legend: { labels: { color: ink, boxWidth: 16, boxHeight: 16 } },
+        tooltip: { backgroundColor: '#fff', titleColor: ink, bodyColor: ink, borderColor: grid, borderWidth: 1 }
       },
       scales: {
-        x: {
-          ticks: { color: ink },
-          grid: { color: grid, drawBorder: false }
-        },
-        y: {
-          ticks: { color: ink },
-          grid: { color: grid, drawBorder: false }
-        }
+        x: { ticks: { color: ink }, grid: { color: grid, drawBorder: false } },
+        y: { ticks: { color: ink }, grid: { color: grid, drawBorder: false } }
       }
     };
 
-    // ---------- 1) Approvals by Day (use last 7 *dates* like "24 Oct") ----------
-    // Build labels for the past 7 days (oldest -> newest)
-    const fmt = new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' }); // 24 Oct
-    const approvalLabels = Array.from({length:7}, (_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() - 6 + i);
-      return fmt.format(d);
-    });
+    // Approvals by Day labels (last 7 days)
+    const fmt = new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short' });
+    const approvalLabels = Array.from({length:7}, (_, i) => { const d=new Date(); d.setDate(d.getDate()-6+i); return fmt.format(d); });
 
     new Chart(document.getElementById('chartApprovals'), {
       type: 'line',
       data: {
         labels: approvalLabels,
-        // keep same example values (you can replace with real data)
         datasets: [{
           label: 'Approvals',
           data: [4, 7, 6.8, 6, 9, 8, 10],
@@ -137,77 +160,37 @@
       }
     });
 
-    // ---------- 2) Active Postings (bar) ----------
     new Chart(document.getElementById('chartActive'), {
       type: 'bar',
       data: {
         labels: ['Pending', 'Approved', 'Closed'],
         datasets: [
-          {
-            label: 'Pending',
-            data: [14, null, null],
-            backgroundColor: pendingFill,
-            borderColor: pendingLine,
-            borderWidth: 1,
-            grouped: false,
-            barPercentage: 0.7,
-            categoryPercentage: 0.7
-          },
-          {
-            label: 'Approved',
-            data: [null, 32, null],
-            backgroundColor: approvedFill,
-            borderColor: approvedLine,
-            borderWidth: 1,
-            grouped: false,
-            barPercentage: 0.7,
-            categoryPercentage: 0.7
-          },
-          {
-            label: 'Closed',
-            data: [null, null, 5],
-            backgroundColor: closedFill,
-            borderColor: closedLine,
-            borderWidth: 1,
-            grouped: false,
-            barPercentage: 0.7,
-            categoryPercentage: 0.7
-          }
+          { label:'Pending',  data:[14,null,null], backgroundColor: pendingFill,  borderColor: pendingLine,  borderWidth:1, grouped:false, barPercentage:.7, categoryPercentage:.7 },
+          { label:'Approved', data:[null,32,null], backgroundColor: approvedFill, borderColor: approvedLine, borderWidth:1, grouped:false, barPercentage:.7, categoryPercentage:.7 },
+          { label:'Closed',   data:[null,null,5],  backgroundColor: closedFill,   borderColor: closedLine,   borderWidth:1, grouped:false, barPercentage:.7, categoryPercentage:.7 }
         ]
       },
       options: {
         ...baseCartesian,
         scales: {
-          x: { ...baseCartesian.scales.x, grid: { color: grid, drawBorder: false, drawOnChartArea: false } },
-          y: { ...baseCartesian.scales.y, beginAtZero: true }
+          x: { ...baseCartesian.scales.x, grid:{ color:grid, drawBorder:false, drawOnChartArea:false } },
+          y: { ...baseCartesian.scales.y, beginAtZero:true }
         }
       }
     });
 
-    // ---------- 3) Avg. Time to Approve (pie with 3 components, as requested) ----------
     new Chart(document.getElementById('chartAvgTime'), {
       type: 'pie',
       data: {
         labels: ['Under 3 days', '3–5 days', '5+ days'],
-        datasets: [{
-          data: [40, 45, 15],
-          backgroundColor: ['#a7f3d0', '#fde68a', '#fecaca'],
-          borderColor: ['#34d399', '#f59e0b', '#ef4444'],
-          borderWidth: 1
-        }]
+        datasets: [{ data: [40, 45, 15], backgroundColor: ['#a7f3d0','#fde68a','#fecaca'], borderColor: ['#34d399','#f59e0b','#ef4444'], borderWidth:1 }]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { labels: { color: ink } },
-          tooltip: {
-            backgroundColor: '#ffffff',
-            titleColor: ink,
-            bodyColor: ink,
-            borderColor: grid,
-            borderWidth: 1
-          }
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+          legend:{ labels:{ color:ink } },
+          tooltip:{ backgroundColor:'#fff', titleColor:ink, bodyColor:ink, borderColor:grid, borderWidth:1 }
         }
       }
     });

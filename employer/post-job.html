@@ -10,17 +10,63 @@
   <style>
     .stack{max-width:820px;margin:0 auto;padding:24px}
     .stack .card{margin:0}
+
+    /* Top bar (brand + Logout) */
+    .topbar{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 24px;
+      border-bottom:1px solid var(--line)
+    }
+    .brand{font-weight:700;text-decoration:none;color:var(--ink)}
+    .brand:hover{text-decoration:underline}
+    .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
+    .logout:hover{background:#fff}
+
+    /* Full-width back row (left aligned to page) */
+    .back-strip{
+      width:100%;
+      padding:16px 24px 0;
+      display:flex;
+      justify-content:flex-start;
+    }
+    .backbtn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#fff;color:var(--ink);
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:.45rem .8rem;
+      text-decoration:none;cursor:pointer;
+    }
+    .backbtn:hover{background:#f6f8fc;border-color:#c8d2e6}
+    .backbtn svg{width:18px;height:18px;stroke:currentColor}
+
+    /* Centered page title like the Jobs page */
+    .page-header{max-width:1100px;margin:0 auto;padding:12px 24px 24px}
+    .page-header h1{margin:0;text-align:center}
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="stack">
-      <nav class="crumbs">
-        <a href="dashboard.html">← Dashboard</a>
-        <span class="meta">/ Post Job</span>
-      </nav>
-      <h1>Post New Job</h1>
-    </div>
+  <!-- Top bar -->
+  <div class="topbar">
+    <a class="brand" href="../index.html">Student2Success</a>
+    <a href="../index.html" class="logout">Logout</a>
+  </div>
+
+  <!-- Back button aligned to the left of the whole page -->
+  <div class="back-strip">
+    <button class="backbtn" type="button"
+      onclick="history.length>1 ? history.back() : (window.location.href='dashboard.html')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Back</span>
+    </button>
+  </div>
+
+  <!-- Centered title -->
+  <header class="page-header">
+    <h1>Post New Job</h1>
   </header>
 
   <main>
@@ -43,7 +89,7 @@
             <label class="label" for="desc">Description</label>
             <textarea id="desc" class="input" rows="5" placeholder="Role summary, responsibilities..."></textarea>
           </div>
-          <div class="field">
+            <div class="field">
             <label class="label" for="req">Requirements</label>
             <textarea id="req" class="input" rows="4" placeholder="Skills, experience..."></textarea>
           </div>

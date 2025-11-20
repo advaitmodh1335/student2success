@@ -12,6 +12,42 @@
 
     .wrap{max-width:1100px;margin:0 auto;padding:24px}
 
+    /* Top bar (brand + logout) */
+    .topbar{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 24px;
+      border-bottom:1px solid var(--line)
+    }
+    .brand{font-weight:700;text-decoration:none;color:var(--ink)}
+    .brand:hover{text-decoration:underline}
+    .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
+    .logout:hover{background:#fff}
+
+    /* FULL-WIDTH back row (left aligned to page) */
+    .back-strip{
+      width:100%;
+      padding:16px 24px 0;
+      display:flex;
+      justify-content:flex-start;
+    }
+    .backbtn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#fff;color:var(--ink);
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:.45rem .8rem;
+      text-decoration:none;cursor:pointer;
+    }
+    .backbtn:hover{background:#f6f8fc;border-color:#c8d2e6}
+    .backbtn svg{width:18px;height:18px;stroke:currentColor}
+
+    /* Center page title */
+    .page-header{max-width:1100px;margin:0 auto;padding:12px 24px 24px}
+    .page-header h1{margin:0;text-align:center}
+
     .btn{border:0}
     .btn.xs{padding:.4rem .6rem;font-size:.9rem;border-radius:8px}
     .btn.safe{background:var(--accent);color:#fff}
@@ -37,14 +73,24 @@
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="wrap">
-      <nav class="crumbs">
-        <a href="dashboard.html">← Dashboard</a>
-        <span class="meta">/ Jobs</span>
-      </nav>
-      <h1>Your Job Posts</h1>
-    </div>
+  <!-- Top bar -->
+  <div class="topbar">
+    <a class="brand" href="../index.html">Student2Success</a>
+    <a href="../index.html" class="logout">Logout</a>
+  </div>
+
+  <!-- Back button aligned to left of the page -->
+  <div class="back-strip">
+    <button class="backbtn" type="button"
+      onclick="history.length>1 ? history.back() : (window.location.href='dashboard.html')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Back</span>
+    </button>
+  </div>
+
+  <!-- Centered title -->
+  <header class="page-header">
+    <h1>Job Posts</h1>
   </header>
 
   <main>
@@ -67,7 +113,6 @@
               <td class="actions-cell">
                 <div class="jobs-actions">
                   <div class="inline-actions">
-                    <!-- EDIT goes to the new edit page with an id -->
                     <a class="btn xs btn-edit" href="edit-job.html?id=swe-intern">Edit</a>
                     <a class="btn xs btn-close" href="#">Close</a>
                   </div>
@@ -82,7 +127,6 @@
               <td class="actions-cell">
                 <div class="jobs-actions">
                   <div class="inline-actions">
-                    <!-- EDIT goes to the new edit page with an id -->
                     <a class="btn xs btn-edit" href="edit-job.html?id=web-engineer-coop">Edit</a>
                     <a class="btn xs btn-close" href="#">Close</a>
                   </div>
