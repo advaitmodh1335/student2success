@@ -7,13 +7,66 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Student · Applications</title>
   <link rel="stylesheet" href="../assets/css/base.css">
+  <style>
+    html,body{height:100%}
+    body{min-height:100vh;display:flex;flex-direction:column}
+
+    /* Shared topbar (brand + Logout) — same as Jobs/Documents */
+    .topbar{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 24px;
+      border-bottom:1px solid var(--line)
+    }
+    .brand{font-weight:700;text-decoration:none;color:var(--ink)}
+    .brand:hover{text-decoration:underline}
+    .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
+    .logout:hover{background:#fff}
+
+    /* Full-width back strip on the left */
+    .back-strip{
+      width:100%;
+      padding:16px 24px 0;
+      display:flex;
+      justify-content:flex-start;
+    }
+    .backbtn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#fff;color:var(--ink);
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:.45rem .8rem;
+      text-decoration:none;cursor:pointer;
+    }
+    .backbtn:hover{background:#f6f8fc;border-color:#c8d2e6}
+    .backbtn svg{width:18px;height:18px;stroke:currentColor}
+
+    /* Centered page title */
+    .page-header{max-width:1100px;margin:0 auto;padding:12px 24px 24px}
+    .page-header h1{margin:0;text-align:center}
+    main{flex:1}
+  </style>
 </head>
 <body>
-  <header class="header">
-    <nav class="crumbs">
-      <a href="dashboard.html">← Dashboard</a>
-      <span class="meta">/ Applications</span>
-    </nav>
+  <!-- Top bar -->
+  <div class="topbar">
+    <a class="brand" href="../index.html">Student2Success</a>
+    <a href="../index.html" class="logout">Logout</a>
+  </div>
+
+  <!-- Back button (left aligned to page) -->
+  <div class="back-strip">
+    <button class="backbtn" type="button"
+      onclick="history.length>1 ? history.back() : (window.location.href='dashboard.html')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Back</span>
+    </button>
+  </div>
+
+  <!-- Centered title -->
+  <header class="page-header">
     <h1>Application Tracking</h1>
   </header>
 
@@ -31,25 +84,19 @@
           </thead>
           <tbody>
             <tr data-href="job-details-app.html">
-              <td>
-                <a href="job-details-app.html">Software Developer Intern</a>
-              </td>
+              <td><a href="job-details-app.html">Software Developer Intern</a></td>
               <td>Tech Corp</td>
               <td><span class="status pending">Pending</span></td>
               <td>2025-10-01</td>
             </tr>
             <tr data-href="job-details-app.html">
-              <td>
-                <a href="job-details-app.html">Data Analyst Intern</a>
-              </td>
+              <td><a href="job-details-app.html">Data Analyst Intern</a></td>
               <td>DataViz Inc</td>
               <td><span class="status approved">Interview</span></td>
               <td>2025-10-05</td>
             </tr>
             <tr data-href="job-details-app.html">
-              <td>
-                <a href="job-details-app.html">Web Engineer Co-op</a>
-              </td>
+              <td><a href="job-details-app.html">Web Engineer Co-op</a></td>
               <td>SiteWorks</td>
               <td><span class="status closed">Rejected</span></td>
               <td>2025-09-18</td>
@@ -70,8 +117,7 @@
         const href=row.getAttribute('data-href');
         if(href) window.location.href=href;
       });
-      // Light-theme hover (Nordic Light): soft accent tint
-      row.addEventListener('mouseenter',()=>row.style.background='rgba(59, 107, 231, 0.08)');
+      row.addEventListener('mouseenter',()=>row.style.background='rgba(59,107,231,0.08)');
       row.addEventListener('mouseleave',()=>row.style.background='transparent');
     });
   </script>

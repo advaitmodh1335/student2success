@@ -14,12 +14,45 @@
     html,body{height:100%}
     body{min-height:100vh;display:flex;flex-direction:column}
 
+    /* Top bar matches Jobs/Documents/Applications */
+    .topbar{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 24px;
+      border-bottom:1px solid var(--line)
+    }
+    .brand{font-weight:700;text-decoration:none;color:var(--ink)}
+    .brand:hover{text-decoration:underline}
+    .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
+    .logout:hover{background:#fff}
+
+    /* Full-width back strip (left-aligned to page) */
+    .back-strip{
+      width:100%;
+      padding:16px 24px 0;
+      display:flex;
+      justify-content:flex-start;
+    }
+    .backbtn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#fff;color:var(--ink);
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:.45rem .8rem;
+      text-decoration:none;cursor:pointer;
+    }
+    .backbtn:hover{background:#f6f8fc;border-color:#c8d2e6}
+    .backbtn svg{width:18px;height:18px;stroke:currentColor}
+
+    /* Centered page title (same width as content) */
+    .page-header{max-width:1100px;margin:0 auto;padding:12px 24px 24px}
+    .page-header h1{margin:0;text-align:center}
+    .page-header .meta{margin-top:6px;text-align:center}
+
     /* Same container width as Job Search */
     .wrap{max-width:1100px;margin:0 auto;padding:24px}
-
-    /* Header = single container (aligns with table below) */
-    .header{ text-align:left; }
-    .header .crumbs, .header h1, .header .meta{ text-align:left; margin-left:0; margin-right:0; }
 
     /* Toolbar (search + sort + clear) */
     .toolbar{
@@ -45,12 +78,23 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <nav class="crumbs">
-      <a href="dashboard.html">← Dashboard</a>
-      <span class="meta">/ Saved Jobs</span>
-    </nav>
+  <!-- Top bar -->
+  <div class="topbar">
+    <a class="brand" href="../index.html">Student2Success</a>
+    <a href="../index.html" class="logout">Logout</a>
+  </div>
+
+  <!-- Back button (left side of page) -->
+  <div class="back-strip">
+    <button class="backbtn" type="button"
+      onclick="history.length>1 ? history.back() : (window.location.href='dashboard.html')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Back</span>
+    </button>
+  </div>
+
+  <!-- Centered title -->
+  <header class="page-header">
     <h1>Saved Jobs</h1>
     <div class="meta">Review roles you’ve bookmarked. You can apply, view details, or remove them from your list.</div>
   </header>
@@ -78,7 +122,7 @@
       </div>
     </section>
 
-    <!-- Saved jobs table (Saved column removed; Actions = only Remove) -->
+    <!-- Saved jobs table -->
     <section class="card">
       <h3>Saved List</h3>
       <table class="table">
@@ -158,16 +202,13 @@
       empty.style.display = total && visible ? 'none' : 'block';
     }
 
-    // Make the whole first cell behave like a link
     table.querySelectorAll('td.job').forEach(td=>{
-      td.addEventListener('click', (e)=>{
-        // ignore clicks on inner links (they already navigate)
+      td.addEventListener('click', ()=>{
         const a = td.querySelector('.job-link');
         if(a) window.location.href = a.href;
       });
     });
 
-    // Remove one row
     table.addEventListener('click', (e)=>{
       if(e.target.closest('.remove')){
         e.preventDefault();
@@ -177,13 +218,11 @@
       }
     });
 
-    // Clear all rows
     clearAll.addEventListener('click', ()=>{
       table.innerHTML = '';
       refreshEmptyState();
     });
 
-    // Client-side filter
     search.addEventListener('input', ()=>{
       const q = search.value.toLowerCase();
       table.querySelectorAll('tr').forEach(tr=>{
@@ -192,7 +231,6 @@
       refreshEmptyState();
     });
 
-    // Simple sort (keeps "date" order as-is)
     sortSel.addEventListener('change', ()=>{
       const by = sortSel.value;
       if (by === 'date') return;
