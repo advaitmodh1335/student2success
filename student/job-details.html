@@ -80,7 +80,7 @@
 
     <aside class="card">
       <p><button class="btn block">Apply Now</button></p>
-      <p><button class="btn secondary block">Save Job</button></p>
+      <p><button id="saveBtn" class="btn secondary block">Save Job</button></p>
     </aside>
   </main>
 
@@ -92,15 +92,30 @@
       const from = params.get('from');
       const ref = document.referrer || '';
       const back = document.getElementById('backLink');
+      const saveBtn = document.getElementById('saveBtn');
 
-      let target = 'jobs.html';
-      let label = 'Job Search';
-      if (from === 'applications' || ref.includes('applications.html')) {
-        target = 'applications.html';
-        label = 'Applications';
+      // If opened from Saved Jobs: back to Saved Jobs + hide "Save Job"
+      if (from === 'saved' || /saved\.html/i.test(ref) || /\/saved(?:-jobs)?\.html/i.test(ref)) {
+        back.href = 'saved-jobs.html';
+        back.textContent = '← Saved Jobs';
+        if (saveBtn) {
+          saveBtn.hidden = true;
+          saveBtn.setAttribute('aria-hidden', 'true');
+          saveBtn.style.display = 'none';
+        }
+        return;
       }
-      back.href = target;
-      back.textContent = '← ' + label;
+
+      // If opened from Applications
+      if (from === 'applications' || ref.includes('applications.html')) {
+        back.href = 'applications.html';
+        back.textContent = '← Applications';
+        return;
+      }
+
+      // Default: opened from Job Search
+      back.href = 'jobs.html';
+      back.textContent = '← Job Search';
     })();
   </script>
 </body>

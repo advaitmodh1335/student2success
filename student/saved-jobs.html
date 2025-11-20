@@ -87,7 +87,7 @@
   <!-- Back button (left side of page) -->
   <div class="back-strip">
     <button class="backbtn" type="button"
-      onclick="history.length>1 ? history.back() : (window.location.href='dashboard.html')">
+      onclick="(window.location.href='dashboard.html')">
       <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span>Back</span>
     </button>
@@ -137,7 +137,7 @@
         <tbody id="savedTable">
           <tr>
             <td class="job">
-              <a class="job-link" href="job-details.html?id=swe-intern">
+              <a class="job-link" href="job-details.html?id=swe-intern&from=saved">
                 <div class="job-title">Software Developer Intern</div>
                 <div class="meta">Build internal tools…</div>
               </a>
@@ -151,7 +151,7 @@
 
           <tr>
             <td class="job">
-              <a class="job-link" href="job-details.html?id=web-engineer-coop">
+              <a class="job-link" href="job-details.html?id=web-engineer-coop&from=saved">
                 <div class="job-title">Web Engineer Co-op</div>
                 <div class="meta">React + Node stack.</div>
               </a>
@@ -165,7 +165,7 @@
 
           <tr>
             <td class="job">
-              <a class="job-link" href="job-details.html?id=data-analyst-summer">
+              <a class="job-link" href="job-details.html?id=data-analyst-summer&from=saved">
                 <div class="job-title">Data Analyst – Summer</div>
                 <div class="meta">SQL · Python · Dashboards</div>
               </a>
@@ -202,6 +202,14 @@
       empty.style.display = total && visible ? 'none' : 'block';
     }
 
+    // Always tag job-details links so the details page knows we came from Saved Jobs
+    document.querySelectorAll('.job-link').forEach(a=>{
+      if(!/[\?&]from=/.test(a.href)){
+        a.href += (a.href.includes('?') ? '&' : '?') + 'from=saved';
+      }
+    });
+
+    // Make the whole first cell behave like a link
     table.querySelectorAll('td.job').forEach(td=>{
       td.addEventListener('click', ()=>{
         const a = td.querySelector('.job-link');
@@ -209,6 +217,7 @@
       });
     });
 
+    // Remove one row
     table.addEventListener('click', (e)=>{
       if(e.target.closest('.remove')){
         e.preventDefault();
@@ -218,11 +227,13 @@
       }
     });
 
+    // Clear all rows
     clearAll.addEventListener('click', ()=>{
       table.innerHTML = '';
       refreshEmptyState();
     });
 
+    // Client-side filter
     search.addEventListener('input', ()=>{
       const q = search.value.toLowerCase();
       table.querySelectorAll('tr').forEach(tr=>{
@@ -231,6 +242,7 @@
       refreshEmptyState();
     });
 
+    // Simple sort (keeps "date" order as-is)
     sortSel.addEventListener('change', ()=>{
       const by = sortSel.value;
       if (by === 'date') return;
