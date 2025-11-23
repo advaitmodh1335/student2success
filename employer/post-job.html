@@ -46,6 +46,28 @@
     /* Centered page title like the Jobs page */
     .page-header{max-width:1100px;margin:0 auto;padding:12px 24px 24px}
     .page-header h1{margin:0;text-align:center}
+
+    /* Segmented (radio) control for Job Type */
+    .segmented{
+      display:flex;gap:10px;flex-wrap:wrap
+    }
+    .segmented input[type="radio"]{
+      position:absolute;opacity:0;pointer-events:none
+    }
+    .segmented label{
+      padding:.5rem .85rem;border:1px solid #d7deea;border-radius:999px;
+      background:#fff;color:#0f1626;cursor:pointer;user-select:none
+    }
+    .segmented input[type="radio"]:focus + label{
+      outline:2px solid rgba(47,111,237,.28);outline-offset:2px
+    }
+    .segmented input[type="radio"]:checked + label{
+      background:#eaf1ff;border-color:#c6d8ff;color:#23407a;font-weight:600
+    }
+
+    .actions-row{
+      margin-top:10px;display:flex;justify-content:flex-start
+    }
   </style>
 </head>
 <body>
@@ -60,7 +82,7 @@
     <button class="backbtn" type="button"
       onclick="(window.location.href='dashboard.html')">
       <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Back</span>
+      <span>Cancel</span>
     </button>
   </div>
 
@@ -77,29 +99,53 @@
             <label class="label" for="title">Job Title</label>
             <input id="title" class="input" placeholder="e.g., Software Developer Intern">
           </div>
+
           <div class="field">
             <label class="label" for="location">Location</label>
             <input id="location" class="input" placeholder="e.g., Calgary or Remote">
           </div>
+
           <div class="field">
             <label class="label" for="comp">Compensation</label>
             <input id="comp" class="input" placeholder="$25/hr">
           </div>
+
+          <!-- NEW: Job Type selection -->
+          <div class="field">
+            <span class="label">Job Type</span>
+            <div class="segmented" role="radiogroup" aria-label="Job type">
+              <input type="radio" id="jt-full" name="jobtype" value="Full-time">
+              <label for="jt-full">Full-time</label>
+
+              <input type="radio" id="jt-part" name="jobtype" value="Part-time">
+              <label for="jt-part">Part-time</label>
+
+              <input type="radio" id="jt-coop" name="jobtype" value="Co-op">
+              <label for="jt-coop">Co-op</label>
+
+              <input type="radio" id="jt-intern" name="jobtype" value="Internship" checked>
+              <label for="jt-intern">Internship</label>
+            </div>
+          </div>
+          <!-- /Job Type -->
+
           <div class="field">
             <label class="label" for="desc">Description</label>
             <textarea id="desc" class="input" rows="5" placeholder="Role summary, responsibilities..."></textarea>
           </div>
-            <div class="field">
+
+          <div class="field">
             <label class="label" for="req">Requirements</label>
             <textarea id="req" class="input" rows="4" placeholder="Skills, experience..."></textarea>
           </div>
+
           <div class="field">
             <label class="label" for="deadline">Deadline</label>
             <input id="deadline" class="input" placeholder="YYYY-MM-DD">
           </div>
+
           <div class="actions-row">
             <button class="btn" type="submit">Submit</button>
-            <span class="meta">(non-functional)</span>
           </div>
         </form>
       </div>
@@ -111,6 +157,18 @@
   <script>
     document.getElementById('postJob').addEventListener('submit',function(e){
       e.preventDefault();
+      // Prototype: log out the selected values (including Job Type)
+      const data = {
+        title: document.getElementById('title').value.trim(),
+        location: document.getElementById('location').value.trim(),
+        compensation: document.getElementById('comp').value.trim(),
+        jobtype: (document.querySelector('input[name="jobtype"]:checked')||{}).value || '',
+        description: document.getElementById('desc').value.trim(),
+        requirements: document.getElementById('req').value.trim(),
+        deadline: document.getElementById('deadline').value.trim()
+      };
+      console.log('Submitting job:', data);
+      // Navigate back to jobs list (as before)
       window.location.href='jobs.html';
     });
   </script>

@@ -75,10 +75,27 @@
     .result+.result{margin-top:12px}
     .result:hover{background:#f7faff;border-color:#cfe0ff}
     .result h3{margin:0 0 4px}
-    .meta-line{display:flex;gap:16px;color:var(--muted)}
+    .meta-line{display:flex;gap:12px;flex-wrap:wrap;align-items:center;color:var(--muted)}
+
     .result h3 a{color:var(--accent);text-decoration:none}
     .result h3 a:hover{text-decoration:underline}
     main{flex:1}
+
+    /* Employment type pill */
+    .type-pill{
+      padding:.18rem .55rem;
+      line-height:1.1;
+      border-radius:999px;
+      font-size:.82rem;
+      font-weight:600;
+      border:1px solid #d7deea;
+      background:#fff;
+      color:#1f2937;
+    }
+    .type-full { background:rgba(22,163,74,.10); border-color:#bfe6cf; color:#256d3d; }
+    .type-part { background:rgba(234,179,8,.12); border-color:#f2d27a; color:#935c00; }
+    .type-intern { background:rgba(59,107,231,.12); border-color:#bcd0ff; color:#264fdd; }
+    .type-coop { background:rgba(168,85,247,.12); border-color:#d8b4fe; color:#6b21a8; }
   </style>
 </head>
 <body>
@@ -166,28 +183,68 @@
       </div>
 
       <div id="results" style="margin-top:16px">
+        <!-- Result 1 -->
         <article class="result" data-id="swe-intern">
           <h3><a href="job-details.html?id=swe-intern">Software Developer Intern</a></h3>
           <div class="meta-line">
-            <span>Tech Corp</span><span>Remote</span><span>$25/hr</span><span>Posted 2d</span>
+            <span>Tech Corp</span>
+            <span>Remote</span>
+            <span>$25/hr</span>
+            <span>Posted 2d</span>
+            <span class="type-pill type-intern" aria-label="Employment type: Internship">Internship</span>
           </div>
           <p style="margin:8px 0 0">Build internal tools with JS/HTML/CSS.</p>
         </article>
 
+        <!-- Result 2 -->
         <article class="result" data-id="data-analyst-intern">
           <h3><a href="job-details.html?id=data-analyst-intern">Data Analyst Intern</a></h3>
           <div class="meta-line">
-            <span>DataViz Inc</span><span>Calgary</span><span>$20/hr</span><span>Posted 1w</span>
+            <span>DataViz Inc</span>
+            <span>Calgary</span>
+            <span>$20/hr</span>
+            <span>Posted 1w</span>
+            <span class="type-pill type-intern" aria-label="Employment type: Internship">Internship</span>
           </div>
           <p style="margin:8px 0 0">Assist with dashboards and ETL.</p>
         </article>
 
+        <!-- Result 3 -->
         <article class="result" data-id="web-engineer-coop">
           <h3><a href="job-details.html?id=web-engineer-coop">Web Engineer Co-op</a></h3>
           <div class="meta-line">
-            <span>SiteWorks</span><span>Remote</span><span>$27/hr</span><span>Posted 5d</span>
+            <span>SiteWorks</span>
+            <span>Remote</span>
+            <span>$27/hr</span>
+            <span>Posted 5d</span>
+            <span class="type-pill type-coop" aria-label="Employment type: Co-op">Co-op</span>
           </div>
           <p style="margin:8px 0 0">Front-end features with modern tooling.</p>
+        </article>
+
+        <!-- Example Full-time + Part-time (optional examples) -->
+        <article class="result" data-id="backend-fulltime">
+          <h3><a href="job-details.html?id=backend-fulltime">Backend Developer</a></h3>
+          <div class="meta-line">
+            <span>Nexus Analytics</span>
+            <span>Toronto</span>
+            <span>$42/hr</span>
+            <span>Posted 3d</span>
+            <span class="type-pill type-full" aria-label="Employment type: Full-time">Full-time</span>
+          </div>
+          <p style="margin:8px 0 0">Build REST services and data pipelines.</p>
+        </article>
+
+        <article class="result" data-id="support-parttime">
+          <h3><a href="job-details.html?id=support-parttime">IT Support Specialist</a></h3>
+          <div class="meta-line">
+            <span>CloudCore</span>
+            <span>Vancouver</span>
+            <span>$23/hr</span>
+            <span>Posted 4d</span>
+            <span class="type-pill type-part" aria-label="Employment type: Part-time">Part-time</span>
+          </div>
+          <p style="margin:8px 0 0">Support tickets, imaging laptops, and onboarding.</p>
         </article>
       </div>
     </div>
