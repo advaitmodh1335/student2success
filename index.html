@@ -46,6 +46,33 @@
     .section-title:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,#eaf0ff,transparent)}
 
     footer.footer.fixed-center{background:transparent}
+
+    /* ---------- Simple modal ---------- */
+    .modal-backdrop{
+      position:fixed;inset:0;
+      background:rgba(16,24,40,.42);
+      display:none;align-items:center;justify-content:center;
+      z-index:300;
+    }
+    .modal-backdrop.show{display:flex}
+    .modal{
+      width:min(680px,92vw);
+      background:#fff;border:1px solid #e7edf8;border-radius:14px;
+      padding:18px 18px 14px;
+      box-shadow:0 24px 72px rgba(16,24,40,.18);
+    }
+    .modal header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+    .modal h2{margin:0;font-size:1.25rem}
+    .modal .close{
+      border:1px solid #d7deea;border-radius:10px;background:#fff;color:var(--ink);
+      padding:.35rem .6rem;cursor:pointer;
+    }
+    .modal .close:hover{background:#f6f8fc}
+    .modal .body{max-height:60vh;overflow:auto;padding-right:6px}
+    .pill{
+      display:inline-block;border:1px solid #d7deea;border-radius:999px;padding:.2rem .55rem;
+      background:#fff;color:#334155;font-size:.8rem;margin-right:6px
+    }
   </style>
 </head>
 
@@ -70,7 +97,12 @@
         </svg>
         <div class="wordmark"><span>Student</span><span class="accent">2</span><span>Success</span></div>
       </div>
-      <nav><a href="#" class="meta">About</a> · <a href="#" class="meta">Help</a></nav>
+
+      <!-- About / Help -->
+      <nav>
+        <a href="#" id="aboutLink" class="meta">About</a> ·
+        <a href="#" id="helpLink" class="meta">Help</a>
+      </nav>
     </div>
 
     <div class="hero" style="margin-top:14px">
@@ -80,7 +112,7 @@
     </div>
   </header>
 
-  <!-- Role Cards (original three options only, no S/E/A symbols) -->
+  <!-- Role Cards (original three options only) -->
   <main class="container grid role-grid" style="margin-top:16px">
     <a class="card" href="student/login.html">
       <h2>Student Portal</h2>
@@ -102,5 +134,73 @@
   </main>
 
   <footer class="footer fixed-center">© 2025 Student2Success</footer>
+
+  <!-- Reusable Modal -->
+  <div id="infoModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <header>
+        <h2 id="modalTitle">Title</h2>
+        <button type="button" class="close" id="closeModal" aria-label="Close">Close</button>
+      </header>
+      <div id="modalBody" class="body"></div>
+    </div>
+  </div>
+
+  <script>
+    // Elements
+    const modal = document.getElementById('infoModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody  = document.getElementById('modalBody');
+    const closeBtn   = document.getElementById('closeModal');
+    const aboutLink  = document.getElementById('aboutLink');
+    const helpLink   = document.getElementById('helpLink');
+
+    // Content
+    const aboutHTML = `
+      <p><strong>Student2Success</strong> is a lightweight portal that brings
+      <span class="pill">Students</span><span class="pill">Employers</span><span class="pill">Staff</span>
+      together to find opportunities, manage postings, and streamline approvals.</p>
+      <ul>
+        <li>Students: create a profile, search and save jobs, and track applications.</li>
+        <li>Employers: post roles, manage applicants, and get notified on approvals.</li>
+        <li>Staff: triage queues, review job details, and approve or decline with feedback.</li>
+      </ul>
+      <p class="meta">Version 1.0 · Built for course/demo use.</p>
+    `;
+
+    const helpHTML = `
+      <p><strong>Need a hand?</strong> Here are quick answers:</p>
+      <ul>
+        <li><em>How do I reset my password?</em> Use “Forgot password” on the login page.</li>
+        <li><em>Why can’t I see my posting?</em> New roles appear after staff approval.</li>
+        <li><em>Where are my saved jobs?</em> Student → Dashboard → Saved Jobs.</li>
+      </ul>
+      <p>Still stuck? Email <a href="mailto:support@student2success.example">support@student2success.example</a>.</p>
+      <p class="meta">Response time: 1–2 business days.</p>
+    `;
+
+    // Open/close helpers
+    function openModal(title, html){
+      modalTitle.textContent = title;
+      modalBody.innerHTML = html;
+      modal.classList.add('show');
+      // focus management
+      closeBtn.focus();
+    }
+    function closeModal(){
+      modal.classList.remove('show');
+      // return focus to last clicked trigger if possible
+      (document.activeElement && document.activeElement.blur) && document.activeElement.blur();
+    }
+
+    // Wire up triggers
+    aboutLink.addEventListener('click', (e)=>{ e.preventDefault(); openModal('About Student2Success', aboutHTML); });
+    helpLink.addEventListener('click',  (e)=>{ e.preventDefault(); openModal('Help & Support', helpHTML);  });
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close on backdrop click or Escape
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+    window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
+  </script>
 </body>
 </html>
