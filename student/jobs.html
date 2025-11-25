@@ -10,7 +10,6 @@
     html,body{height:100%}
     body{min-height:100vh;display:flex;flex-direction:column}
 
-    /* Shared topbar (same as dashboard) */
     .topbar{
       width:100%;
       display:flex;
@@ -24,25 +23,22 @@
     .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
     .logout:hover{background:#fff}
 
-    /* FULL-WIDTH back row (left aligned to page, not the container) */
     .back-strip{
       width:100%;
-      padding:16px 24px 0;         /* same horizontal rhythm as topbar */
-      display:flex;
-      justify-content:flex-start;
+      padding:16px 24px 0;
+      display:flex; justify-content:flex-start;
     }
     .backbtn{
       display:inline-flex;align-items:center;gap:8px;
       background:#fff;color:var(--ink);
       border:1px solid var(--line);
       border-radius:10px;
-      padding:.45rem .8rem;
-      text-decoration:none;cursor:pointer;
+      padding:.45rem .8rem; cursor:pointer;
+      text-decoration:none;
     }
     .backbtn:hover{background:#f6f8fc;border-color:#c8d2e6}
     .backbtn svg{width:18px;height:18px;stroke:currentColor}
 
-    /* Center page title only (container width) */
     .page-header{max-width:1100px;margin:0 auto;padding:12px 24px 24px}
     .page-header h1{margin:0;text-align:center}
 
@@ -52,19 +48,14 @@
     .chips{display:flex;gap:10px;flex-wrap:wrap}
 
     .chip{
-      padding:.5rem .8rem;
-      border:1px solid #d7deea;
-      border-radius:999px;
-      background:#fff;
-      color:var(--ink);
-      cursor:pointer;
+      padding:.5rem .8rem;border:1px solid #d7deea;border-radius:999px;
+      background:#fff;color:var(--ink);cursor:pointer;
       transition:background .15s ease,border-color .15s ease,color .15s ease
     }
     .chip:hover{background:#f6f8fc}
     .chip[data-on="true"]{background:#eaf1ff;border-color:#c6d8ff;color:#23407a}
 
     .row4{display:grid;gap:10px;grid-template-columns:repeat(4,1fr)}
-
     .btn.ghost{background:#fff;border:1px solid #d7deea;color:var(--ink)}
     .btn.ghost:hover{background:#f6f8fc;border-color:#c8d2e6}
 
@@ -76,45 +67,35 @@
     .result:hover{background:#f7faff;border-color:#cfe0ff}
     .result h3{margin:0 0 4px}
     .meta-line{display:flex;gap:12px;flex-wrap:wrap;align-items:center;color:var(--muted)}
-
     .result h3 a{color:var(--accent);text-decoration:none}
     .result h3 a:hover{text-decoration:underline}
     main{flex:1}
 
-    /* Employment type pill */
     .type-pill{
-      padding:.18rem .55rem;
-      line-height:1.1;
-      border-radius:999px;
-      font-size:.82rem;
-      font-weight:600;
-      border:1px solid #d7deea;
-      background:#fff;
-      color:#1f2937;
+      padding:.18rem .55rem; line-height:1.1; border-radius:999px; font-size:.82rem; font-weight:600;
+      border:1px solid #d7deea; background:#fff; color:#1f2937;
     }
     .type-full { background:rgba(22,163,74,.10); border-color:#bfe6cf; color:#256d3d; }
     .type-part { background:rgba(234,179,8,.12); border-color:#f2d27a; color:#935c00; }
     .type-intern { background:rgba(59,107,231,.12); border-color:#bcd0ff; color:#264fdd; }
     .type-coop { background:rgba(168,85,247,.12); border-color:#d8b4fe; color:#6b21a8; }
+
+    #noResults{margin:14px 0;color:var(--muted)}
   </style>
 </head>
 <body>
-  <!-- Shared header (brand + Logout only) -->
   <div class="topbar">
     <a class="brand" href="../index.html">Student2Success</a>
     <a href="../index.html" class="logout">Logout</a>
   </div>
 
-  <!-- Back button is left-aligned to the PAGE (not the centered container) -->
   <div class="back-strip">
-    <button class="backbtn" type="button"
-      onclick="(window.location.href='dashboard.html')">
+    <button class="backbtn" type="button" onclick="(window.location.href='dashboard.html')">
       <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span>Back</span>
     </button>
   </div>
 
-  <!-- Title centered like other pages -->
   <header class="page-header">
     <h1>Job Search</h1>
   </header>
@@ -131,12 +112,12 @@
           <div>
             <span class="label">Quick Filters</span>
             <div class="chips">
-              <span class="chip" data-on="true">Remote</span>
-              <span class="chip" data-on="true">Paid</span>
-              <span class="chip">Full-time</span>
-              <span class="chip">Part-time</span>
-              <span class="chip" data-on="true">Internship</span>
-              <span class="chip">Co-op</span>
+              <span class="chip" data-on="true"  data-key="remote">Remote</span>
+              <span class="chip" data-on="true"  data-key="paid">Paid</span>
+              <span class="chip"                data-key="full-time">Full-time</span>
+              <span class="chip"                data-key="part-time">Part-time</span>
+              <span class="chip" data-on="true" data-key="internship">Internship</span>
+              <span class="chip"                data-key="co-op">Co-op</span>
             </div>
           </div>
 
@@ -145,32 +126,35 @@
               <label class="label" for="location">Location</label>
               <select id="location" class="input">
                 <option value="">Any</option>
-                <option>Calgary</option>
-                <option>Remote</option>
-                <option>Vancouver</option>
-                <option>Toronto</option>
+                <option value="Calgary">Calgary</option>
+                <option value="Remote">Remote</option>
+                <option value="Vancouver">Vancouver</option>
+                <option value="Toronto">Toronto</option>
               </select>
             </div>
+
             <div>
               <label class="label" for="duration">Duration</label>
               <select id="duration" class="input">
                 <option value="">Any</option>
-                <option>4 months</option>
-                <option>8 months</option>
-                <option>12 months</option>
+                <option value="4">4 months</option>
+                <option value="8">8 months</option>
+                <option value="12">12 months</option>
               </select>
             </div>
+
             <div>
               <label class="label" for="minpay">Min Pay ($/hr)</label>
               <input id="minpay" class="input" type="number" min="0" step="1" placeholder="20">
             </div>
+
             <div>
               <label class="label" for="posted">Posted</label>
               <select id="posted" class="input">
                 <option value="">Any time</option>
-                <option>Last 24h</option>
-                <option>Last 7 days</option>
-                <option>Last 30 days</option>
+                <option value="1">Last 24h</option>
+                <option value="7">Last 7 days</option>
+                <option value="30">Last 30 days</option>
               </select>
             </div>
           </div>
@@ -183,69 +167,103 @@
       </div>
 
       <div id="results" style="margin-top:16px">
-        <!-- Result 1 -->
-        <article class="result" data-id="swe-intern">
+        <!-- Each job carries searchable/filterable data-* attributes -->
+        <article class="result"
+          data-id="swe-intern"
+          data-title="Software Developer Intern"
+          data-company="Tech Corp"
+          data-location="Remote"
+          data-remote="true"
+          data-paid="true"
+          data-type="internship"
+          data-pay="25"
+          data-posted-days="2"
+          data-duration="4">
           <h3><a href="job-details.html?id=swe-intern">Software Developer Intern</a></h3>
           <div class="meta-line">
-            <span>Tech Corp</span>
-            <span>Remote</span>
-            <span>$25/hr</span>
-            <span>Posted 2d</span>
+            <span>Tech Corp</span><span>Remote</span><span>$25/hr</span><span>Posted 2d</span>
             <span class="type-pill type-intern" aria-label="Employment type: Internship">Internship</span>
           </div>
           <p style="margin:8px 0 0">Build internal tools with JS/HTML/CSS.</p>
         </article>
 
-        <!-- Result 2 -->
-        <article class="result" data-id="data-analyst-intern">
+        <article class="result"
+          data-id="data-analyst-intern"
+          data-title="Data Analyst Intern"
+          data-company="DataViz Inc"
+          data-location="Calgary"
+          data-remote="false"
+          data-paid="true"
+          data-type="internship"
+          data-pay="20"
+          data-posted-days="7"
+          data-duration="4">
           <h3><a href="job-details.html?id=data-analyst-intern">Data Analyst Intern</a></h3>
           <div class="meta-line">
-            <span>DataViz Inc</span>
-            <span>Calgary</span>
-            <span>$20/hr</span>
-            <span>Posted 1w</span>
+            <span>DataViz Inc</span><span>Calgary</span><span>$20/hr</span><span>Posted 1w</span>
             <span class="type-pill type-intern" aria-label="Employment type: Internship">Internship</span>
           </div>
           <p style="margin:8px 0 0">Assist with dashboards and ETL.</p>
         </article>
 
-        <!-- Result 3 -->
-        <article class="result" data-id="web-engineer-coop">
+        <article class="result"
+          data-id="web-engineer-coop"
+          data-title="Web Engineer Co-op"
+          data-company="SiteWorks"
+          data-location="Remote"
+          data-remote="true"
+          data-paid="true"
+          data-type="coop"
+          data-pay="27"
+          data-posted-days="5"
+          data-duration="8">
           <h3><a href="job-details.html?id=web-engineer-coop">Web Engineer Co-op</a></h3>
           <div class="meta-line">
-            <span>SiteWorks</span>
-            <span>Remote</span>
-            <span>$27/hr</span>
-            <span>Posted 5d</span>
+            <span>SiteWorks</span><span>Remote</span><span>$27/hr</span><span>Posted 5d</span>
             <span class="type-pill type-coop" aria-label="Employment type: Co-op">Co-op</span>
           </div>
           <p style="margin:8px 0 0">Front-end features with modern tooling.</p>
         </article>
 
-        <!-- Example Full-time + Part-time (optional examples) -->
-        <article class="result" data-id="backend-fulltime">
+        <article class="result"
+          data-id="backend-fulltime"
+          data-title="Backend Developer"
+          data-company="Nexus Analytics"
+          data-location="Toronto"
+          data-remote="false"
+          data-paid="true"
+          data-type="full"
+          data-pay="42"
+          data-posted-days="3"
+          data-duration="12">
           <h3><a href="job-details.html?id=backend-fulltime">Backend Developer</a></h3>
           <div class="meta-line">
-            <span>Nexus Analytics</span>
-            <span>Toronto</span>
-            <span>$42/hr</span>
-            <span>Posted 3d</span>
+            <span>Nexus Analytics</span><span>Toronto</span><span>$42/hr</span><span>Posted 3d</span>
             <span class="type-pill type-full" aria-label="Employment type: Full-time">Full-time</span>
           </div>
           <p style="margin:8px 0 0">Build REST services and data pipelines.</p>
         </article>
 
-        <article class="result" data-id="support-parttime">
+        <article class="result"
+          data-id="support-parttime"
+          data-title="IT Support Specialist"
+          data-company="CloudCore"
+          data-location="Vancouver"
+          data-remote="false"
+          data-paid="true"
+          data-type="part"
+          data-pay="23"
+          data-posted-days="4"
+          data-duration="4">
           <h3><a href="job-details.html?id=support-parttime">IT Support Specialist</a></h3>
           <div class="meta-line">
-            <span>CloudCore</span>
-            <span>Vancouver</span>
-            <span>$23/hr</span>
-            <span>Posted 4d</span>
+            <span>CloudCore</span><span>Vancouver</span><span>$23/hr</span><span>Posted 4d</span>
             <span class="type-pill type-part" aria-label="Employment type: Part-time">Part-time</span>
           </div>
           <p style="margin:8px 0 0">Support tickets, imaging laptops, and onboarding.</p>
         </article>
+
+        <div id="noResults" style="display:none">No results match your filters.</div>
       </div>
     </div>
   </main>
@@ -253,17 +271,80 @@
   <footer class="footer">Student2Success</footer>
 
   <script>
+    // Toggle chips on click (visual state only)
     document.querySelectorAll('.chip').forEach(chip=>{
-      chip.addEventListener('click',()=>chip.dataset.on = chip.dataset.on==='true'?'false':'true');
+      chip.addEventListener('click',()=> chip.dataset.on = chip.dataset.on==='true' ? 'false' : 'true');
     });
-    document.getElementById('reset').addEventListener('click',()=>{
-      document.getElementById('filters').reset();
-      document.querySelectorAll('.chip').forEach(c=>c.dataset.on='false');
+
+    const form = document.getElementById('filters');
+    const resultsEl = document.getElementById('results');
+    const cards = Array.from(resultsEl.querySelectorAll('.result'));
+    const noResults = document.getElementById('noResults');
+
+    function applyFilters(){
+      const q = document.getElementById('q').value.trim().toLowerCase();
+      const location = document.getElementById('location').value;
+      const duration = document.getElementById('duration').value;  // "","4","8","12"
+      const minPay = parseFloat(document.getElementById('minpay').value) || 0;
+      const postedMax = parseInt(document.getElementById('posted').value || '0', 10); // 0 = Any
+
+      // Quick chip states
+      const chips = {};
+      document.querySelectorAll('.chips .chip').forEach(c=>{
+        chips[c.dataset.key] = c.dataset.on === 'true';
+      });
+
+      // Build selected types OR set
+      const selectedTypes = [];
+      if (chips['full-time']) selectedTypes.push('full');
+      if (chips['part-time']) selectedTypes.push('part');
+      if (chips['internship']) selectedTypes.push('internship');
+      if (chips['co-op']) selectedTypes.push('coop');
+
+      let shown = 0;
+      cards.forEach(card=>{
+        const title   = (card.dataset.title || '').toLowerCase();
+        const company = (card.dataset.company || '').toLowerCase();
+        const loc     = card.dataset.location || '';
+        const remote  = card.dataset.remote === 'true';
+        const paid    = card.dataset.paid === 'true';
+        const type    = card.dataset.type;                // 'internship' | 'coop' | 'full' | 'part'
+        const pay     = parseFloat(card.dataset.pay || '0');
+        const posted  = parseInt(card.dataset.postedDays || '999', 10);
+        const dur     = card.dataset.duration || '';      // "4" | "8" | "12" | ""
+
+        let ok = true;
+
+        if (q && !(title.includes(q) || company.includes(q))) ok = false;
+        if (location && loc !== location) ok = false;
+        if (duration && dur !== duration) ok = false;
+        if (minPay && pay < minPay) ok = false;
+        if (postedMax && posted > postedMax) ok = false;
+
+        if (chips['remote'] && !remote) ok = false;
+        if (chips['paid']   && !paid)   ok = false;
+
+        if (selectedTypes.length && !selectedTypes.includes(type)) ok = false;
+
+        card.style.display = ok ? '' : 'none';
+        if (ok) shown++;
+      });
+
+      noResults.style.display = shown ? 'none' : '';
+      resultsEl.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    form.addEventListener('submit', (e)=>{ e.preventDefault(); applyFilters(); });
+
+    document.getElementById('reset').addEventListener('click', ()=>{
+      form.reset();
+      document.querySelectorAll('.chip').forEach(c=> c.dataset.on = 'false');
+      // Show everything again
+      cards.forEach(c=> c.style.display = '');
+      noResults.style.display = 'none';
     });
-    document.getElementById('filters').addEventListener('submit',e=>{
-      e.preventDefault();
-      alert('Filters applied (prototype only).');
-    });
+
+    // Keep click-to-open behavior
     document.querySelectorAll('.result').forEach(card=>{
       card.addEventListener('click',e=>{
         if(e.target.closest('a')) return;
