@@ -70,6 +70,21 @@
     .jobs-actions .btn{display:flex;align-items:center;justify-content:center;text-align:center}
 
     .jobs-table tbody tr:hover{background:#eef3ff}
+
+    /* ===== Modal styles ===== */
+    .backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(17,24,39,.45);z-index:300}
+    .backdrop.show{display:flex}
+    .modal{width:min(560px,94vw);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 24px 60px rgba(2,8,23,.28)}
+    .modal header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+    .modal .body{padding:16px}
+    .modal .footer{padding:14px 16px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+    .modal .close-x{background:transparent;border:0;font-size:1.4rem;color:var(--muted);cursor:pointer;line-height:1}
+    .btn.danger{background:#dc2626;color:#fff}
+    .btn.secondary{background:#fff;border:1px solid #d7deea;color:#0f1626}
+    .btn.secondary:hover{background:#f6f8fc;border-color:#c8d2e6}
+
+    /* Empty state */
+    .empty{padding:32px;text-align:center;color:var(--muted)}
   </style>
 </head>
 <body>
@@ -96,7 +111,7 @@
   <main>
     <div class="wrap">
       <div class="card">
-        <table class="table jobs-table">
+        <table class="table jobs-table" id="jobsTable">
           <thead>
             <tr>
               <th>Job</th>
@@ -114,7 +129,7 @@
                 <div class="jobs-actions">
                   <div class="inline-actions">
                     <a class="btn xs btn-edit" href="edit-job.html?id=swe-intern">Edit</a>
-                    <a class="btn xs btn-close" href="#">Delete</a>
+                    <a class="btn xs btn-close" href="#" data-delete>Delete</a>
                   </div>
                   <a class="btn xs safe" href="applicants.html">View Applicants</a>
                 </div>
@@ -128,7 +143,7 @@
                 <div class="jobs-actions">
                   <div class="inline-actions">
                     <a class="btn xs btn-edit" href="edit-job.html?id=web-engineer-coop">Edit</a>
-                    <a class="btn xs btn-close" href="#">Delete</a>
+                    <a class="btn xs btn-close" href="#" data-delete>Delete</a>
                   </div>
                   <a class="btn xs safe" href="applicants.html">View Applicants</a>
                 </div>
@@ -136,10 +151,96 @@
             </tr>
           </tbody>
         </table>
+
+        <!-- Empty state (hidden until needed) -->
+        <div id="emptyState" class="empty" style="display:none">
+          No job posts yet.
+        </div>
       </div>
     </div>
   </main>
 
   <footer class="footer">Student2Success</footer>
+
+  <!-- Delete confirmation modal -->
+  <div id="deleteModal" class="backdrop" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+    <div class="modal" role="document">
+      <header>
+        <h2 id="deleteTitle">Delete job post?</h2>
+        <button class="close-x" type="button" aria-label="Close" data-close>×</button>
+      </header>
+      <div class="body">
+        <p id="deleteMsg">This action cannot be undone.</p>
+      </div>
+      <div class="footer">
+        <button class="btn secondary" type="button" data-close>Cancel</button>
+        <button id="confirmDelete" class="btn danger" type="button">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Utilities
+    const $ = (s, c=document)=>c.querySelector(s);
+    const $$ = (s, c=document)=>Array.from(c.querySelectorAll(s));
+
+    const tbody = $('#jobsTable tbody');
+    const emptyState = $('#emptyState');
+
+    // Modal helpers
+    const deleteModal = $('#deleteModal');
+    const deleteMsg   = $('#deleteMsg');
+    const confirmBtn  = $('#confirmDelete');
+    let lastFocus = null;
+    let pendingRow = null;
+
+    function openModal(el){
+      lastFocus = document.activeElement;
+      el.classList.add('show');
+      const first = el.querySelector('button,[href],input,[tabindex]:not([tabindex="-1"])');
+      if (first) first.focus();
+    }
+    function closeModal(el){
+      el.classList.remove('show');
+      try{ lastFocus && lastFocus.focus(); }catch(_){}
+    }
+    deleteModal.addEventListener('click', (e)=>{
+      if (e.target === deleteModal || e.target.hasAttribute('data-close')) {
+        closeModal(deleteModal);
+        pendingRow = null;
+      }
+    });
+    window.addEventListener('keydown', (e)=>{
+      if (e.key === 'Escape' && deleteModal.classList.contains('show')){
+        closeModal(deleteModal);
+        pendingRow = null;
+      }
+    });
+
+    // Wire up delete buttons
+    tbody.addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-delete]');
+      if (!del) return;
+      e.preventDefault();
+      pendingRow = del.closest('tr');
+      const jobName = pendingRow?.querySelector('td')?.textContent?.trim() || 'this job';
+      deleteMsg.textContent = `Delete “${jobName}”? This action cannot be undone.`;
+      openModal(deleteModal);
+    });
+
+    // Confirm deletion
+    confirmBtn.addEventListener('click', ()=>{
+      if (!pendingRow) return;
+      pendingRow.remove();
+      pendingRow = null;
+      closeModal(deleteModal);
+
+      // Show empty state if no rows remain
+      if (!tbody.querySelector('tr')){
+        $('#jobsTable').style.display = 'none';
+        emptyState.style.display = 'block';
+      }
+    });
+  </script>
 </body>
 </html>
