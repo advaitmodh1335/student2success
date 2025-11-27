@@ -35,6 +35,28 @@
     .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
     .logout:hover{background:#fff}
 
+    /* NEW: centered primary nav with Job Queue */
+    .primary-nav{
+      flex:1 1 auto;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+    }
+    .navlink{
+      display:inline-flex;align-items:center;justify-content:center;gap:6px;
+      padding:.45rem .8rem;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:#fff;
+      color:var(--ink);
+      text-decoration:none;
+      white-space:nowrap;
+    }
+    .navlink:hover{background:#f6f8fc;border-color:#c8d2e6}
+    .navlink svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none}
+
     /* Full-width back row */
     .back-strip{
       width:100%;
@@ -66,6 +88,17 @@
   <!-- Top bar -->
   <div class="topbar">
     <a class="brand" href="../index.html">Student2Success</a>
+
+    <!-- NEW: single-link nav -->
+    <nav class="primary-nav" aria-label="Primary">
+      <a class="navlink" href="jobs.html" id="jobQueueNav">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+        <span>Job Queue</span>
+      </a>
+    </nav>
+
     <a href="../index.html" class="logout">Logout</a>
   </div>
 

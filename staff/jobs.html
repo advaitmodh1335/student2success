@@ -16,6 +16,32 @@
     .brand:hover{text-decoration:underline}
     .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
     .logout:hover{background:#fff}
+
+    /* NEW: centered primary nav with "Statistics" */
+    .primary-nav{
+      flex:1 1 auto;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+    }
+    .navlink{
+      display:inline-flex;align-items:center;justify-content:center;gap:6px;
+      padding:.45rem .8rem;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:#fff;
+      color:var(--ink);
+      text-decoration:none;
+      white-space:nowrap;
+    }
+    .navlink:hover{background:#f6f8fc;border-color:#c8d2e6}
+    .navlink[aria-current="page"], .navlink.active{
+      background:#eaf1ff;border-color:#c6d8ff;color:#23407a;
+    }
+    .navlink svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none}
+
     .back-strip{width:100%;padding:16px 24px 0;display:flex;justify-content:flex-start}
     .backbtn{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:.45rem .8rem;cursor:pointer}
     .backbtn:hover{background:#f6f8fc;border-color:#c8d2e6}
@@ -27,6 +53,20 @@
 <body>
   <div class="topbar">
     <a class="brand" href="../index.html">Student2Success</a>
+
+    <!-- NEW: Staff primary nav -->
+    <nav class="primary-nav" aria-label="Primary">
+      <a class="navlink" href="statistics.html" id="statsNav">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <!-- simple bar chart icon -->
+          <rect x="4"  y="12" width="3" height="8" rx="1"></rect>
+          <rect x="10" y="9"  width="3" height="11" rx="1"></rect>
+          <rect x="16" y="6"  width="3" height="14" rx="1"></rect>
+        </svg>
+        <span>Statistics</span>
+      </a>
+    </nav>
+
     <a href="../index.html" class="logout">Logout</a>
   </div>
 
