@@ -24,6 +24,31 @@
     .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
     .logout:hover{background:#fff}
 
+    /* NEW: centered primary nav with View Jobs (different icon) */
+    .primary-nav{
+      flex:1 1 auto;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+    }
+    .navlink{
+      display:inline-flex;align-items:center;justify-content:center;gap:6px;
+      padding:.45rem .8rem;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:#fff;
+      color:var(--ink);
+      text-decoration:none;
+      white-space:nowrap;
+    }
+    .navlink:hover{background:#f6f8fc;border-color:#c8d2e6}
+    .navlink[aria-current="page"], .navlink.active{
+      background:#eaf1ff;border-color:#c6d8ff;color:#23407a
+    }
+    .navlink svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none}
+
     /* Full-width back row (left aligned to page) */
     .back-strip{
       width:100%;
@@ -85,6 +110,23 @@
   <!-- Top bar -->
   <div class="topbar">
     <a class="brand" href="../index.html">Student2Success</a>
+
+    <!-- NEW: Nav bar with View Jobs (list icon) -->
+    <nav class="primary-nav" aria-label="Primary">
+      <a class="navlink" href="jobs.html" id="viewJobsNav">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <!-- list with bullets -->
+          <circle cx="5" cy="7" r="1.6"></circle>
+          <line x1="9" y1="7" x2="20" y2="7"></line>
+          <circle cx="5" cy="12" r="1.6"></circle>
+          <line x1="9" y1="12" x2="20" y2="12"></line>
+          <circle cx="5" cy="17" r="1.6"></circle>
+          <line x1="9" y1="17" x2="20" y2="17"></line>
+        </svg>
+        <span>View Jobs</span>
+      </a>
+    </nav>
+
     <a href="../index.html" class="logout">Logout</a>
   </div>
 
