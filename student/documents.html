@@ -35,6 +35,21 @@
     .pill.danger{border-color:#f2c7c7;background:#fff6f6;color:#b3261e}
     .pill.danger:hover{background:#ffecec;border-color:#efb2b2}
 
+    /* Download pill → blue shade (documents.html only) */
+    .actions-group a.pill[download]{
+      border-color:#c6d8ff;
+      background:#eaf1ff;
+      color:#23407a;
+    }
+    .actions-group a.pill[download]:hover{
+      background:#dfe9ff;
+      border-color:#b9ceff;
+    }
+    .actions-group a.pill[download]:focus{
+      outline:2px solid rgba(59,107,231,.28);
+      outline-offset:2px;
+    }
+
     @media (max-width: 900px){
       .docs-table col:nth-child(1){ width: 42%; }
       .docs-table col:nth-child(2){ width: 20%; }
