@@ -5,86 +5,113 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Student · Job Details</title>
+  <title>Student · Loading…</title>
   <link rel="stylesheet" href="../assets/css/base.css">
-  <link rel="stylesheet" href="../assets/css/layout.css">
-  <link rel="stylesheet" href="../assets/css/components.css">
   <style>
+    /* ==== Match Jobs page header/back layout ==== */
+    html,body{height:100%}
+    body{min-height:100vh;display:flex;flex-direction:column}
+    main{flex:1}
+
+    .topbar{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 24px;
+      border-bottom:1px solid var(--line)
+    }
+    .brand{font-weight:700;text-decoration:none;color:var(--ink)}
+    .brand:hover{text-decoration:underline}
+    .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
+    .logout:hover{background:#fff}
+
+    .back-strip{
+      width:100%;
+      padding:16px 24px 0;
+      display:flex; justify-content:flex-start;
+    }
+    .backbtn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#fff;color:var(--ink);
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:.45rem .8rem; cursor:pointer;
+      text-decoration:none;
+    }
+    .backbtn:hover{background:#f6f8fc;border-color:#c8d2e6}
+    .backbtn svg{width:18px;height:18px;stroke:currentColor}
+
+    .page-header{max-width:1100px;margin:0 auto;padding:12px 24px 24px}
+    .page-header h1{margin:0;text-align:center}
+
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+
+    /* ==== Page-specific bits ==== */
     .grid.cols-2{display:grid;grid-template-columns:2fr 1fr;gap:16px}
     @media (max-width:900px){.grid.cols-2{grid-template-columns:1fr}}
-
-    /* Scroll container for the description */
-    .desc-pane{
-      max-height:60vh;
-      overflow-y:auto;
-      padding-right:8px;
-      -webkit-overflow-scrolling:touch;
-    }
+    .desc-pane{max-height:60vh;overflow-y:auto;padding-right:8px;-webkit-overflow-scrolling:touch}
 
     /* ---------- Modals ---------- */
-    .backdrop{
-      position:fixed; inset:0; display:none;
-      align-items:center; justify-content:center;
-      background:rgba(17,24,39,.45); z-index:300;
-    }
+    .backdrop{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(17,24,39,.45); z-index:300}
     .backdrop.show{ display:flex; }
-    .modal{
-      width:min(680px, 94vw);
-      background:#fff; border:1px solid var(--line); border-radius:14px;
-      box-shadow:0 24px 60px rgba(2,8,23,.28);
-    }
+    .modal{width:min(680px, 94vw); background:#fff; border:1px solid var(--line); border-radius:14px; box-shadow:0 24px 60px rgba(2,8,23,.28)}
     .modal header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)}
     .modal h2{margin:0;font-size:1.15rem}
     .modal .close-x{background:transparent;border:0;font-size:1.4rem;color:var(--muted);cursor:pointer;line-height:1}
     .modal .body{padding:16px 18px;max-height:60vh;overflow:auto}
     .modal .footer{padding:14px 18px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
 
-    /* Document list */
+    /* Document list in the Apply modal */
     .doc-list{display:grid;gap:10px}
-    .doc-row{
-      display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center;
-      border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:#fff;
-    }
+    .doc-row{display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center; border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:#fff}
     .doc-row:hover{background:#f8fbff;border-color:#d9e6ff}
     .doc-meta{color:var(--muted);font-size:.9rem}
     .pill-info{padding:.2rem .55rem;border-radius:999px;border:1px solid #d7deea;background:#fff;color:#334155;font-size:.8rem}
 
-    /* Confirmation & Save modals */
+    /* Confirmation modals */
     .success-wrap{display:grid;justify-items:center;gap:10px;text-align:center}
-    .checkmark{
-      width:56px;height:56px;border-radius:999px;background:rgba(34,197,94,.12);
-      display:grid;place-items:center;color:#16a34a;border:1px solid #bfe6cf;
-      font-size:28px;line-height:1;
-    }
-    .bookmark{
-      width:56px;height:56px;border-radius:999px;background:rgba(59,107,231,.12);
-      display:grid;place-items:center;color:#3b82f6;border:1px solid #bcd0ff;
-      font-size:24px;line-height:1;
-    }
+    .checkmark{width:56px;height:56px;border-radius:999px;background:rgba(34,197,94,.12);display:grid;place-items:center;color:#16a34a;border:1px solid #bfe6cf;font-size:28px;line-height:1}
+    .bookmark{width:56px;height:56px;border-radius:999px;background:rgba(59,107,231,.12);display:grid;place-items:center;color:#3b82f6;border:1px solid #bcd0ff;font-size:24px;line-height:1}
     .attached-list{margin:10px 0 0;padding:0;list-style:none;color:var(--muted)}
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="crumbs">
-      <a id="backLink" href="jobs.html">← Job Search</a>
-      <span class="meta">/ Details</span>
-    </div>
-    <h1 id="jobTitle">Software Developer Intern</h1>
-    <p id="jobMeta" class="meta">Tech Corp · Remote · Internship · $25/hr · <strong>Deadline:</strong> Jan 1, 2026</p>
+  <!-- Top bar (same as Jobs page) -->
+  <div class="topbar">
+    <a class="brand" href="../index.html">Student2Success</a>
+    <a href="../index.html" class="logout">Logout</a>
+  </div>
+
+  <!-- Back button (dynamic destination) -->
+  <div class="back-strip">
+    <button id="backBtn" class="backbtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="backLabel">Job Search</span>
+    </button>
+  </div>
+
+  <!-- Centered heading (now dynamic per job) -->
+  <header class="page-header">
+    <h1 id="pageTitle">Loading…</h1>
   </header>
 
-  <main class="container grid cols-2">
-    <section class="card">
-      <div id="descPane" class="desc-pane" tabindex="0" aria-label="Job description content">
-        <!-- Filled by JS -->
-      </div>
-    </section>
+  <!-- Job meta (company · location · type · pay · deadline/posted) -->
+  <section class="wrap" style="padding-top:0">
+    <p id="jobMeta" class="meta"></p>
+  </section>
 
-    <aside class="card">
-      <p><button id="applyBtn" class="btn block">Apply Now</button></p>
-      <p><button id="saveBtn" class="btn secondary block">Save Job</button></p>
-    </aside>
+  <main class="wrap">
+    <div class="grid cols-2">
+      <section class="card">
+        <div id="descPane" class="desc-pane" tabindex="0" aria-label="Job description content"></div>
+      </section>
+
+      <aside class="card">
+        <p><button id="applyBtn" class="btn block">Apply Now</button></p>
+        <p id="saveRow"><button id="saveBtn" class="btn secondary block">Save Job</button></p>
+      </aside>
+    </div>
   </main>
 
   <footer class="footer">Student2Success</footer>
@@ -99,14 +126,12 @@
       <div class="body">
         <p class="meta" style="margin-top:0">Choose files to attach from your document storage.</p>
 
-        <!-- Quick actions -->
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
           <button id="selectAll" class="pill" type="button">Select all</button>
           <button id="clearAll" class="pill" type="button">Clear all</button>
           <a class="pill" href="documents.html">Open Documents</a>
         </div>
 
-        <!-- Document storage (sample, hard-coded for prototype) -->
         <div id="docList" class="doc-list">
           <label class="doc-row">
             <input class="doc" type="checkbox" value="Resume – Maharsh Patel.pdf" checked>
@@ -117,7 +142,7 @@
             <span class="pill-info">Required</span>
           </label>
 
-        <label class="doc-row">
+          <label class="doc-row">
             <input class="doc" type="checkbox" value="Cover Letter (role-specific).docx">
             <div>
               <div><strong>Cover Letter (role-specific).docx</strong></div>
@@ -174,7 +199,7 @@
     </div>
   </div>
 
-  <!-- ========== Save Job Confirmation Modal (NEW) ========== -->
+  <!-- ========== Save Job Confirmation Modal ========== -->
   <div id="savedModal" class="backdrop" role="dialog" aria-modal="true" aria-labelledby="savedTitle">
     <div class="modal" role="document">
       <header>
@@ -196,7 +221,7 @@
   </div>
 
   <script>
-    // ---------------- Job dataset (unique content per job) ----------------
+    // ---------------- Job dataset (sample content) ----------------
     const JOBS = {
       "swe-intern": {
         title: "Software Developer Intern",
@@ -388,60 +413,51 @@
       }
     };
 
-    // ---------------- Render the selected job ----------------
-    const params = new URLSearchParams(location.search);
-    const jobId = params.get('id') || 'swe-intern';
-    const job = JOBS[jobId] || JOBS['swe-intern'];
+    // ---------------- Render selected job ----------------
+    const params  = new URLSearchParams(location.search);
+    const jobId   = params.get('id') || 'swe-intern';
+    const job     = JOBS[jobId] || JOBS['swe-intern'];
 
-    // Header
-    const titleEl = document.getElementById('jobTitle');
-    const metaEl  = document.getElementById('jobMeta');
-    const descEl  = document.getElementById('descPane');
-
-    titleEl.textContent = job.title;
+    // Page title + heading
+    document.title = `Student · ${job.title}`;
+    const pageTitle = document.getElementById('pageTitle');
+    const metaEl    = document.getElementById('jobMeta');
+    const descEl    = document.getElementById('descPane');
+    pageTitle.textContent = job.title;
 
     const deadlineOrPosted = job.deadline
       ? ` · <strong>Deadline:</strong> ${job.deadline}`
       : (job.posted ? ` · ${job.posted}` : '');
-
     metaEl.innerHTML = `${job.company} · ${job.location} · ${job.type} · ${job.pay}${deadlineOrPosted}`;
-
-    // Body content
     descEl.innerHTML = job.html;
 
-    // Put job title into confirmation texts
-    const confirmText = document.getElementById('confirmText');
-    confirmText.textContent = `Your application to “${job.title}” was sent.`;
-    const savedText = document.getElementById('savedText');
-    savedText.textContent = `“${job.title}” was added to your saved list.`;
+    // Personalize confirmation text
+    document.getElementById('confirmText').textContent = `Your application to “${job.title}” was sent.`;
+    const savedTextEl = document.getElementById('savedText');
+    if (savedTextEl) savedTextEl.textContent = `“${job.title}” was added to your saved list.`;
 
-    // ---------------- Back link + Save button visibility ----------------
-    (function(){
-      const from = params.get('from');
-      const ref = document.referrer || '';
-      const back = document.getElementById('backLink');
-      const saveBtn = document.getElementById('saveBtn');
+    // -------- Back destination + Saved-only behavior --------
+    const backBtn   = document.getElementById('backBtn');
+    const backLabel = document.getElementById('backLabel');
+    const saveRow   = document.getElementById('saveRow');
+    const saveBtnEl = document.getElementById('saveBtn');
 
-      if (from === 'saved' || /saved\.html/i.test(ref) || /\/saved(?:-jobs)?\.html/i.test(ref)) {
-        back.href = 'saved-jobs.html';
-        back.textContent = '← Saved Jobs';
-        if (saveBtn) {
-          saveBtn.hidden = true;
-          saveBtn.setAttribute('aria-hidden', 'true');
-          saveBtn.style.display = 'none';
-        }
-        return;
-      }
-      if (from === 'applications' || ref.includes('applications.html')) {
-        back.href = 'applications.html';
-        back.textContent = '← Applications';
-        return;
-      }
-      back.href = 'jobs.html';
-      back.textContent = '← Job Search';
-    })();
+    const ref       = document.referrer || '';
+    const cameFromSaved = (params.get('from') === 'saved') || /\/saved(?:-jobs)?\.html/i.test(ref);
 
-    // ---------------- Apply flow (attach docs -> confirmation) ----------------
+    if (cameFromSaved) {
+      // Hide Save button (show only Apply Now)
+      if (saveRow){ saveRow.hidden = true; saveRow.style.display = 'none'; }
+      // Back -> Saved Jobs
+      backLabel.textContent = 'Saved Jobs';
+      backBtn.onclick = ()=> window.location.href = 'saved-jobs.html';
+    } else {
+      // Default: Back -> Job Search
+      backLabel.textContent = 'Job Search';
+      backBtn.onclick = ()=> window.location.href = 'jobs.html';
+    }
+
+    // ---------------- Apply & Save flows ----------------
     const applyBtn     = document.getElementById('applyBtn');
     const applyModal   = document.getElementById('applyModal');
     const confirmModal = document.getElementById('confirmModal');
@@ -450,35 +466,15 @@
     const submitApp    = document.getElementById('submitApp');
     const selectAllBtn = document.getElementById('selectAll');
     const clearAllBtn  = document.getElementById('clearAll');
-    const saveBtnEl    = document.getElementById('saveBtn');
 
     let lastFocus = null;
+    function openModal(el){ lastFocus = document.activeElement; el.classList.add('show'); const first = el.querySelector('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])'); if(first) first.focus(); }
+    function closeModal(el){ el.classList.remove('show'); if(lastFocus){ try{ lastFocus.focus(); }catch(_){} } }
+    function backdropOrCloseX(e){ if(e.target.hasAttribute('data-close') || e.target === e.currentTarget){ closeModal(e.currentTarget); } }
 
-    function openModal(el){
-      lastFocus = document.activeElement;
-      el.classList.add('show');
-      const first = el.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-      if (first) first.focus();
-    }
-    function closeModal(el){
-      el.classList.remove('show');
-      if (lastFocus) { try { lastFocus.focus(); } catch(e){} }
-    }
-    function backdropOrCloseX(e){
-      if (e.target.hasAttribute('data-close') || e.target === e.currentTarget) {
-        closeModal(e.currentTarget);
-      }
-    }
-
-    // Open Apply
     applyBtn.addEventListener('click', ()=> openModal(applyModal));
+    if (saveBtnEl && !cameFromSaved){ saveBtnEl.addEventListener('click', ()=> openModal(savedModal)); }
 
-    // Save Job -> simple confirmation pop-up (no persistence)
-    if (saveBtnEl){
-      saveBtnEl.addEventListener('click', ()=> openModal(savedModal));
-    }
-
-    // Close handlers (X, Cancel, backdrop)
     applyModal.addEventListener('click', backdropOrCloseX);
     confirmModal.addEventListener('click', backdropOrCloseX);
     savedModal.addEventListener('click', backdropOrCloseX);
@@ -490,29 +486,12 @@
       }
     });
 
-    // Select/Clear all
-    selectAllBtn.addEventListener('click', ()=>{
-      applyModal.querySelectorAll('input.doc').forEach(cb => cb.checked = true);
-    });
-    clearAllBtn.addEventListener('click', ()=>{
-      applyModal.querySelectorAll('input.doc').forEach(cb => cb.checked = false);
-    });
+    selectAllBtn.addEventListener('click', ()=>{ applyModal.querySelectorAll('input.doc').forEach(cb=> cb.checked = true); });
+    clearAllBtn.addEventListener('click', ()=>{ applyModal.querySelectorAll('input.doc').forEach(cb=> cb.checked = false); });
 
-    // Submit application (prototype)
     submitApp.addEventListener('click', ()=>{
       const selected = Array.from(applyModal.querySelectorAll('input.doc:checked')).map(cb=>cb.value);
-      attachedList.innerHTML = '';
-      if (selected.length){
-        selected.forEach(name=>{
-          const li = document.createElement('li');
-          li.textContent = name;
-          attachedList.appendChild(li);
-        });
-      }else{
-        const li = document.createElement('li');
-        li.textContent = 'No attachments';
-        attachedList.appendChild(li);
-      }
+      attachedList.innerHTML = selected.length ? selected.map(n=>`<li>${n}</li>`).join('') : '<li>No attachments</li>';
       closeModal(applyModal);
       openModal(confirmModal);
     });

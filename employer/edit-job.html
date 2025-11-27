@@ -5,20 +5,55 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Employer · Edit Job</title>
+  <title>Employer · Loading…</title>
   <link rel="stylesheet" href="../assets/css/base.css">
   <style>
+    html,body{height:100%}
+    body{min-height:100vh;display:flex;flex-direction:column}
+    main{flex:1}
+
+    /* ===== Topbar (matches candidate pages) ===== */
+    .topbar{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 24px;
+      border-bottom:1px solid var(--line)
+    }
+    .brand{font-weight:700;text-decoration:none;color:var(--ink)}
+    .brand:hover{text-decoration:underline}
+    .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
+    .logout:hover{background:#fff}
+
+    /* ===== Back strip (matches candidate pages) ===== */
+    .back-strip{
+      width:100%;
+      padding:16px 24px 0;
+      display:flex; justify-content:flex-start;
+    }
+    .backbtn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#fff;color:var(--ink);
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:.45rem .8rem; cursor:pointer;
+      text-decoration:none;
+    }
+    .backbtn:hover{background:#f6f8fc;border-color:#c8d2e6}
+    .backbtn svg{width:18px;height:18px;stroke:currentColor}
+
+    /* ===== Page header ===== */
+    .page-header{max-width:1100px;margin:0 auto;padding:12px 24px 24px}
+    .page-header h1{margin:0;text-align:center}
+    .meta.center{text-align:center;color:var(--muted)}
+
+    /* ===== Layout / form ===== */
     .stack{max-width:820px;margin:0 auto;padding:24px}
     .stack .card{margin:0}
     .actions-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
     .btn.secondary{background:#fff;border:1px solid #d7deea;color:#0f1626}
     .btn.secondary:hover{background:#f6f8fc;border-color:#c8d2e6}
-
-    /* --- tighten header-to-form spacing (local to this page) --- */
-    .header{padding-bottom:12px}
-    .header h1{margin:0 0 4px}
-    .header .meta{margin:2px 0 0}
-    main .stack{padding-top:12px}
 
     /* ===== Job Type segmented control ===== */
     .seg{display:flex;gap:8px;flex-wrap:wrap}
@@ -34,7 +69,7 @@
     .seg input:focus + label{outline:2px solid transparent;box-shadow:0 0 0 3px rgba(59,107,231,.28)}
     .seg input:checked + label{background:#eaf1ff;border-color:#c6d8ff;color:#23407a}
 
-    /* ===== Make Save & Cancel identical, slightly smaller ===== */
+    /* Save/Cancel sizes */
     .actions-row .btn{
       display:inline-flex;align-items:center;justify-content:center;
       height:42px;
@@ -60,15 +95,24 @@
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="stack">
-      <nav class="crumbs">
-        <a href="jobs.html">← Jobs</a>
-        <span class="meta">/ Edit</span>
-      </nav>
-      <h1 id="pageTitle">Edit Job</h1>
-      <p class="meta" id="jobMeta"></p>
-    </div>
+  <!-- Top bar -->
+  <div class="topbar">
+    <a class="brand" href="../index.html">Student2Success</a>
+    <a href="../index.html" class="logout">Logout</a>
+  </div>
+
+  <!-- Back button (dynamic) -->
+  <div class="back-strip">
+    <button id="backBtn" class="backbtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="backLabel">Jobs</span>
+    </button>
+  </div>
+
+  <!-- Centered header -->
+  <header class="page-header">
+    <h1 id="pageTitle">Loading…</h1>
+    <p class="meta center" id="jobMeta"></p>
   </header>
 
   <main>
@@ -90,7 +134,7 @@
             <input id="comp" class="input" placeholder="$ /hr">
           </div>
 
-          <!-- ===== Job Type ===== -->
+          <!-- Job Type -->
           <div class="field">
             <span class="label">Job Type</span>
             <div class="seg" role="radiogroup" aria-label="Job Type">
@@ -112,7 +156,6 @@
               </div>
             </div>
           </div>
-          <!-- ===== End Job Type ===== -->
 
           <div class="field">
             <label class="label" for="desc">Description</label>
@@ -131,7 +174,7 @@
 
           <div class="actions-row">
             <button class="btn" type="submit">Save Changes</button>
-            <a class="btn secondary" href="jobs.html">Cancel</a>
+            <a id="cancelLink" class="btn secondary" href="jobs.html">Cancel</a>
           </div>
         </form>
       </div>
@@ -140,7 +183,7 @@
 
   <footer class="footer">Student2Success</footer>
 
-  <!-- ===== Save confirmation modal ===== -->
+  <!-- Save confirmation modal -->
   <div id="saveModal" class="backdrop" role="dialog" aria-modal="true" aria-labelledby="saveTitle">
     <div class="modal" role="document">
       <header>
@@ -163,7 +206,7 @@
   </div>
 
   <script>
-    // Simple in-page dataset for the prototype (includes 'type')
+    // --- Prototype dataset ---
     const JOBS = {
       'swe-intern': {
         title: 'Software Developer Intern',
@@ -191,10 +234,14 @@
     const id = params.get('id') || 'swe-intern';
     const job = JOBS[id] || JOBS['swe-intern'];
 
-    // Populate UI
-    document.getElementById('pageTitle').textContent = `Edit Job · ${job.title}`;
-    document.getElementById('jobMeta').textContent = `${job.company} · ${job.location} · ${job.comp}`;
+    // ------ Dynamic header/title ------
+    document.title = `Employer · Edit – ${job.title}`;
+    const pageTitle = document.getElementById('pageTitle');
+    pageTitle.textContent = `${job.title}`;
+    const metaEl = document.getElementById('jobMeta');
+    metaEl.textContent = `${job.company} · ${job.location} · ${job.comp}`;
 
+    // ------ Populate form ------
     document.getElementById('title').value = job.title;
     document.getElementById('location').value = job.location;
     document.getElementById('comp').value = job.comp;
@@ -207,6 +254,30 @@
     const typeInput = document.querySelector(`input[name="jtype"][value="${typeValue}"]`);
     if (typeInput) typeInput.checked = true;
     else document.getElementById('jt-full').checked = true;
+
+    // ------ Back button + Cancel destination (dynamic) ------
+    const backBtn   = document.getElementById('backBtn');
+    const backLabel = document.getElementById('backLabel');
+    const cancelA   = document.getElementById('cancelLink');
+
+    const ref = document.referrer || '';
+    const fromParam = params.get('from');
+
+    function resolveBack() {
+      if (fromParam === 'dashboard' || /\/employer-dashboard\.html/i.test(ref)) {
+        return { href: 'employer-dashboard.html', label: 'Dashboard' };
+      }
+      if (fromParam === 'jobs' || /\/jobs\.html/i.test(ref)) {
+        return { href: 'jobs.html', label: 'Jobs' };
+      }
+      // Fallback
+      return { href: 'jobs.html', label: 'Jobs' };
+    }
+
+    const back = resolveBack();
+    backLabel.textContent = back.label;
+    backBtn.onclick = () => { window.location.href = back.href; };
+    cancelA.href = back.href;
 
     // ===== Modal helpers =====
     const saveModal = document.getElementById('saveModal');
@@ -248,10 +319,15 @@
       mJobTitle.textContent = title;
       mJobMeta.textContent  = `${chosenType} • ${loc} • ${comp} • ${dl}`;
 
-      // (Optional) update our in-page dataset (purely for prototype feel)
+      // Update our in-page dataset (prototype feel)
       Object.assign(job, { title, location: loc, comp, type: chosenType, desc, req, deadline: dl });
 
-      // Open the modal
+      // Update header titles live
+      document.title = `Employer · Edit – ${title}`;
+      pageTitle.textContent = `Edit · ${title}`;
+      metaEl.textContent = `${job.company} · ${loc} · ${comp}`;
+
+      // Open modal
       openModal(saveModal);
     });
   </script>
