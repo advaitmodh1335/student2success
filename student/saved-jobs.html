@@ -14,12 +14,12 @@
     html,body{height:100%}
     body{min-height:100vh;display:flex;flex-direction:column}
 
-    /* Top bar matches Jobs/Documents/Applications */
+    /* Top bar now matches Jobs/Documents/Applications with centered primary nav */
     .topbar{
       width:100%;
       display:flex;
-      justify-content:space-between;
       align-items:center;
+      gap:12px;
       padding:16px 24px;
       border-bottom:1px solid var(--line)
     }
@@ -27,6 +27,39 @@
     .brand:hover{text-decoration:underline}
     .logout{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
     .logout:hover{background:#fff}
+
+    /* Primary nav (icons + text) */
+    .primary-nav{
+      flex:1 1 auto;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+    }
+    .navlink{
+      display:inline-flex;align-items:center;justify-content:center;gap:6px;
+      padding:.45rem .8rem;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:#fff;
+      color:var(--ink);
+      text-decoration:none;
+      white-space:nowrap;
+    }
+    .navlink:hover{background:#f6f8fc;border-color:#c8d2e6}
+    .navlink[aria-current="page"],
+    .navlink.active{
+      background:#eaf1ff;border-color:#c6d8ff;color:#23407a
+    }
+    .navlink svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none}
+
+    /* Responsive: allow wrap/scroll on small screens */
+    @media (max-width:780px){
+      .primary-nav{justify-content:flex-start;overflow-x:auto;padding-bottom:4px}
+      .primary-nav::-webkit-scrollbar{height:6px}
+      .primary-nav::-webkit-scrollbar-thumb{background:#d7deea;border-radius:99px}
+    }
 
     /* Full-width back strip (left-aligned to page) */
     .back-strip{
@@ -78,9 +111,51 @@
   </style>
 </head>
 <body>
-  <!-- Top bar -->
+  <!-- Top bar with primary nav -->
   <div class="topbar">
     <a class="brand" href="../index.html">Student2Success</a>
+
+    <nav class="primary-nav" aria-label="Primary">
+      <!-- Dashboard -->
+      <a class="navlink" href="dashboard.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="8" height="8" rx="1"></rect>
+          <rect x="13" y="3" width="8" height="8" rx="1"></rect>
+          <rect x="3" y="13" width="8" height="8" rx="1"></rect>
+          <rect x="13" y="13" width="8" height="8" rx="1"></rect>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+
+      <!-- Documents -->
+      <a class="navlink" href="documents.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path>
+          <path d="M14 3v5h5"></path>
+        </svg>
+        <span>Documents</span>
+      </a>
+
+      <!-- Applications -->
+      <a class="navlink" href="applications.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="8" width="18" height="11" rx="2"></rect>
+          <rect x="8" y="4" width="8" height="4" rx="1"></rect>
+          <path d="M3 12h18"></path>
+        </svg>
+        <span>Applications</span>
+      </a>
+
+      <!-- Job Search -->
+      <a class="navlink" href="jobs.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="6"></circle>
+          <path d="M21 21l-4.3-4.3"></path>
+        </svg>
+        <span>Jobs</span>
+      </a>
+    </nav>
+
     <a href="../index.html" class="logout">Logout</a>
   </div>
 
