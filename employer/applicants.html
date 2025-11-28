@@ -417,6 +417,10 @@
       modalTitle.textContent = title || "Notice";
       modalBody.innerHTML = body || "";
       modalFooter.innerHTML = "";
+
+      // Hide footer if there are no actions (for view-only modal)
+      modalFooter.style.display = actions.length ? "flex" : "none";
+
       actions.forEach(a=>{
         const btn = document.createElement('button');
         btn.type = "button";
@@ -425,6 +429,7 @@
         btn.addEventListener('click', ()=> a.onClick && a.onClick());
         modalFooter.appendChild(btn);
       });
+
       modal.classList.add('show');
       const first = modal.querySelector('button, [href], input, select, textarea');
       if (first) first.focus();
@@ -484,6 +489,7 @@
 
       const action = btn.dataset.action;
       if (action === 'view'){
+        // View modal now has NO footer actions (close-x only)
         openModal({
           title: `Applicant · ${r.name}`,
           body: `
@@ -494,8 +500,8 @@
               <div class="muted">Submitted</div> <div>${r.date}</div>
               <div class="muted">Status</div>    <div>${r.statusSel.value}</div>
             </div>
-          `,
-          actions: [{label:"Close", variant:"outline", onClick: closeModal}]
+          `
+          // no actions -> footer hidden
         });
       }
       else if (action === 'message'){
