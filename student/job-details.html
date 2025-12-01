@@ -208,7 +208,7 @@
 
         <div id="docList" class="doc-list">
           <label class="doc-row">
-            <input class="doc" type="checkbox" value="Resume – Maharsh Patel.pdf" checked>
+            <input class="doc" type="checkbox" value="Resume – Maharsh Patel.pdf" data-resume checked>
             <div>
               <div><strong>Resume – Maharsh Patel.pdf</strong></div>
               <div class="doc-meta">PDF · updated 3d ago · 1.1 MB</div>
@@ -243,6 +243,7 @@
             <span class="pill-info">Optional</span>
           </label>
         </div>
+        <div id="resumeError" style="color:red; display:none; margin-top:8px;">Please select a resume before submitting your application.</div>
       </div>
       <div class="footer">
         <button class="btn secondary" type="button" data-close>Cancel</button>
@@ -594,6 +595,14 @@
     clearAllBtn.addEventListener('click', ()=>{ applyModal.querySelectorAll('input.doc').forEach(cb=> cb.checked = false); });
 
     submitApp.addEventListener('click', ()=>{
+      const resumeChecked = !!applyModal.querySelector('input.doc[data-resume]:checked');
+      const resumeError = document.getElementById('resumeError');
+      if (!resumeChecked) {
+        resumeError.style.display = 'block';
+        return;
+      } else {
+        resumeError.style.display = 'none';
+      }
       const selected = Array.from(applyModal.querySelectorAll('input.doc:checked')).map(cb=>cb.value);
       attachedList.innerHTML = selected.length ? selected.map(n=>`<li>${n}</li>`).join('') : '<li>No attachments</li>';
       closeModal(applyModal);
