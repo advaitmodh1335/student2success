@@ -202,5 +202,29 @@
     modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
     window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
   </script>
+  <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+          apiKey: "AIzaSyANYDDYWQLI_SazNTx7KMaaWnFeilAZ-RU",
+          authDomain: "student2success-a235a.firebaseapp.com",
+          databaseURL: "https://student2success-a235a-default-rtdb.firebaseio.com",
+          projectId: "student2success-a235a",
+          storageBucket: "student2success-a235a.firebasestorage.app",
+          messagingSenderId: "943056123436",
+          appId: "1:943056123436:web:68e88505c0d5e7f5388389",
+          measurementId: "G-52ZV46GD8L"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+  </script>
 </body>
 </html>
