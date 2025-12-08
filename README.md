@@ -38,6 +38,9 @@ Internet connection is required for the Chart.js CDN.
 2. Run python3 -m http.server 5500 in terminal
 3. Then open http://localhost:5500/index.html
 
+### Option C - Direct Link made using FIREWALL
+1. https://student2success-a235a.web.app
+
 ## What Was Implemented (Cases / Functions)
 
 ### Shared
